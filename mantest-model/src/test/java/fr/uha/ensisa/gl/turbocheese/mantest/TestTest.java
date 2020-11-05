@@ -20,5 +20,6 @@ public class TestTest {
 			String name = "A sample test name";
 			sut.setName(name);
 			assertEquals(name, sut.getName());
+			assertEquals(0, sut.getId());
 		}
 }

@@ -10,7 +10,7 @@ public class Test {
 	}
 	
 	public Test() {
-		this(0, "test");
+		this(0, null);
 	}
 	
 	public long getId() {
