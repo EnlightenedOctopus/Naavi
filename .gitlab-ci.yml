@@ -32,8 +32,8 @@ stages:
 # Task: Compiling
 compile:
   stage: build
-script: # many commands can appear here (as an array)
-  - mvn $MAVEN_CLI_OPTS clean compile
+  script: # many commands can appear here (as an array)
+    - mvn $MAVEN_CLI_OPTS clean compile
 
 # Task: testing
 test:
