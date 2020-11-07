@@ -30,7 +30,11 @@
 	</properties>
 
 	<dependencies>
-  		
+  		<dependency>
+  			<groupId>fr.uha.ensisa.gl.turbocheese</groupId>
+  			<artifactId>mantest-dao-mem</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
          
         <dependency>
             <groupId>javax.annotation</groupId>
