@@ -87,5 +87,6 @@
   <modules>
   	<module>mantest-model</module>
   	<module>mantest-dao-mem</module>
+  	<module>spring-mvc-archetype</module>
   </modules>
 </project>
