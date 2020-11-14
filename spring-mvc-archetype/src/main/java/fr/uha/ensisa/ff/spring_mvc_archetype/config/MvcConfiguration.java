@@ -16,6 +16,9 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import fr.uha.ensisa.gl.turbocheese.mantest.dao.DaoFactory;
+import fr.uha.ensisa.gl.turbocheese.mantest.dao.mem.DaoFactoryMem;
+
 @Configuration
 @ComponentScan(basePackages="fr.uha.ensisa.ff.spring_mvc_archetype")
 @EnableWebMvc
@@ -56,5 +59,10 @@ public class MvcConfiguration implements WebMvcConfigurer {
 	@Bean
 	public MultipartResolver multipartResolver(){
 		return new CommonsMultipartResolver();
+	}
+	
+	@Bean
+	public DaoFactory getDaoFactory() {
+		return new DaoFactoryMem();
 	}
 }

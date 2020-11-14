@@ -21,5 +21,8 @@ public class TestTest {
 			sut.setName(name);
 			assertEquals(name, sut.getName());
 			assertEquals(0, sut.getId());
+			long id = 12;
+			sut.setId(id);
+			assertEquals(12, sut.getId());
 		}
 }
