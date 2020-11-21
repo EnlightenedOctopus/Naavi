@@ -28,6 +28,7 @@ cache:
 stages:  
   - build  
   - test
+  - deploy
 
 # Task: Compiling
 compile:
@@ -46,3 +47,27 @@ test:
     reports:
       junit:        
         - "**/target/surefire-reports/TEST-*.xml"
+
+deploy-docker:
+  stage: deploy
+  image: docker:latest # Image containing the Docker cli
+  services:
+  - name: docker:dind # Adds a running Docker daemon
+    command: ["--registry-mirror=https://docker.cluster.ensisa.uha.fr"]
+  variables:
+    DOCKER_HOST: tcp://localhost:2375
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - WARFILE=$(find . -name '*.war' -path '*/target/*' -print0)
+    # Check https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+    - IMG_NAME="registry.cluster.ensisa.uha.fr/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"
+    - docker pull -q jetty:9-jdk8-slim
+    - |
+        echo "FROM jetty:9-jdk8-slim
+        EXPOSE 8080
+        ADD $WARFILE \${JETTY_BASE}/webapps/${CI_PROJECT_NAMESPACE}-${CI_PROJECT_NAME}.war
+        " > Dockerfile
+    - cat Dockerfile
+    - docker build -t $IMG_NAME .
+    - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} registry.cluster.ensisa.uha.fr
+    - docker push $IMG_NAME
