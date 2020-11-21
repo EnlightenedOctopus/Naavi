@@ -55,7 +55,7 @@ integration-test:
     - selenium/standalone-firefox:3.141.59
   stage: integration-test
   script:
-    - mvn $MAVEN_CLI_OPTS -f spring-mvc-archetype -Dselenium.remote.browser=firefox verify
+    - mvn $MAVEN_CLI_OPTS -f spring-mvc-archetype -Dselenium.remote.browser=firefox -Dmaven.test.skip=true verify
   artifacts:
     paths:
       - "**/target/surefire-reports/*"
