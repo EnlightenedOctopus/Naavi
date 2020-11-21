@@ -28,7 +28,7 @@ cache:
 stages:  
   - build  
   - test
-  - deploy-docker
+  - deploy
 
 # Task: Compiling
 compile:
