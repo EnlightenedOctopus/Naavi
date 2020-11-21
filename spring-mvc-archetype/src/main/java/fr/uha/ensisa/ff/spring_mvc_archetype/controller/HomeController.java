@@ -13,9 +13,6 @@ import fr.uha.ensisa.gl.turbocheese.mantest.dao.DaoFactory;
 
 @Controller
 public class HomeController {
-	
-	@Autowired
-	public DaoFactory daoFactory;
 
 	@RequestMapping(value="/hello")
 	public ModelAndView hello(@RequestParam(required=false, defaultValue="World") String name) {
@@ -23,23 +20,5 @@ public class HomeController {
 		// Adds an objet to be used in home.jsp
 		ret.addObject("name", name);
 		return ret;
-	}
-	
-	@RequestMapping(value="/list")
-	public ModelAndView list() throws IOException{
-		ModelAndView ret = new ModelAndView("list");
-		ret.addObject("tests", daoFactory.getTestDao().findAll());
-		return ret;
-	}
-	
-	@RequestMapping(value="/create")
-	public String create(@RequestParam(required=true) String testName) throws IOException{
-		Test newTest = new Test();
-		long id = daoFactory.getTestDao().count()+1;
-		while(daoFactory.getTestDao().find(id) != null) id++;
-		newTest.setId(id);
-		newTest.setName(testName);
-		daoFactory.getTestDao().persist(newTest);
-		return "redirect:/list";
 	}
 }
