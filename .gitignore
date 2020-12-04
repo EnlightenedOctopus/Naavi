@@ -2,4 +2,8 @@
 !.gitignore
 !.gitlab-ci.yml
 
+.*
+!.gitignore
+!.codeclimate.yml
+
 target
