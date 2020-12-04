@@ -55,7 +55,7 @@ test:
 spotbugs:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS -e spotbugs:spotbugs
+    - mvn $MAVEN_CLI_OPTS -e -U spotbugs:spotbugs
   artifacts: # results of the stage
     paths:      
       - "**/target/surefire-reports/*"
