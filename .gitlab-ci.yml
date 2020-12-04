@@ -20,6 +20,7 @@ before_script:
 variables:
   MAVEN_CLI_OPTS: "--batch-mode -s settings.xml -Dmaven.repo.local=libs"
   # Folders to be reused from tasks to tasks
+
 cache:
   paths:    
     - "libs" # jars downloaded and installed by Maven    
@@ -28,6 +29,7 @@ cache:
 stages:  
   - build  
   - test
+  - integration-test
   - deploy
 
 # Task: Compiling
@@ -46,6 +48,19 @@ test:
       - "**/target/surefire-reports/*"
     reports:
       junit:        
+        - "**/target/surefire-reports/TEST-*.xml"
+# Task : integration testing
+integration-test:
+  services: 
+    - selenium/standalone-firefox:3.141.59
+  stage: integration-test
+  script:
+    - mvn $MAVEN_CLI_OPTS -f spring-mvc-archetype -Dselenium.remote.browser=firefox -Dmaven.test.skip=true verify
+  artifacts:
+    paths:
+      - "**/target/surefire-reports/*"
+    reports:
+      junit:
         - "**/target/surefire-reports/TEST-*.xml"
 
 deploy-docker:
