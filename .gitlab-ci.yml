@@ -59,9 +59,6 @@ spotbugs:
   artifacts: # results of the stage
     paths:      
       - "**/target/surefire-reports/*"
-    reports:
-      spotbugs:        
-        - "**/target/surefire-reports/TEST-*.xml"
 
 # Task : integration testing
 integration-test:
