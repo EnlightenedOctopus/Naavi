@@ -50,6 +50,19 @@ test:
     reports:
       junit:        
         - "**/target/surefire-reports/TEST-*.xml"
+
+# Task : spotbugs
+spotbugs:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS spotbugs:spotbugs
+  artifacts: # results of the stage
+    paths:      
+      - "**/target/surefire-reports/*"
+    reports:
+      spotbugs:        
+        - "**/target/surefire-reports/TEST-*.xml"
+
 # Task : integration testing
 integration-test:
   services: 
