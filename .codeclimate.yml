@@ -1,0 +1,16 @@
+version: "2"
+plugins:
+  sonar-java:
+    enabled: true
+    config:
+      sonar.java.source: "7"
+    tests_patterns:
+        - src/test/**
+        - mantest-model/src/test/java/fr/uha/ensisa/gl/turbocheese/mantest/**
+        - mantest-dao-mem/src/main/java/fr/uha/ensisa/gl/turbocheese/mantest/dao/mem/**
+        - spring-mvc-archetype/src/test/java/fr/uha/ensisa/ff/spring_mvc_archetype/it/**
+    exclude_patterns:
+        - "lib/foundation.js"
+        - "**/*.rb"
+        - mantest-model/src/main/**
+        - spring-mvc-archetype/src/main/**
