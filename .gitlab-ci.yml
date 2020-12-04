@@ -31,6 +31,7 @@ stages:
   - test
   - integration-test
   - deploy
+  - run
 
 # Task: Compiling
 compile:
@@ -86,3 +87,135 @@ deploy-docker:
     - docker build -t $IMG_NAME .
     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} registry.cluster.ensisa.uha.fr
     - docker push $IMG_NAME
+
+.kubernetes: &kubernetes
+  stage: run
+  image: docker-private.cluster.ensisa.uha.fr/docker/kubectl
+  script:
+    # Setup kubectl
+    - kubectl config set-cluster k8s --server="${K8S_SERVER}" --certificate-authority=${K8S_CERTIFICATE_AUTHORITY}
+    - kubectl config set-credentials gitlab-ci --token="${K8S_USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user=gitlab-ci
+    - kubectl config use-context default
+
+    # Kubernetes deployment file
+    - APP_NAME="${CI_PROJECT_NAMESPACE}-${CI_PROJECT_NAME}"
+    - NAMESPACE="gitlab-cd-${ENV}"
+    - IMG_NAME="${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_COMMIT_TAG:-latest}"
+    - |
+        echo "
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: $APP_NAME-registry-secret
+          namespace: $NAMESPACE
+        type: kubernetes.io/dockerconfigjson
+        data:
+          .dockerconfigjson: $(echo -n "{\"auths\":{\"${CI_REGISTRY}\":{\"username\":\"${CI_DEPLOY_USER}\",\"password\":\"${CI_DEPLOY_PASSWORD}\",\"auth\":\"$( echo -n "${CI_DEPLOY_USER}:${CI_DEPLOY_PASSWORD}" | base64 )\"}}}" | base64 -w 0)
+        ---
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          labels:
+            app: $APP_NAME
+          name: $APP_NAME
+          namespace: $NAMESPACE
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: $APP_NAME
+          template:
+            metadata:
+              labels:
+                app: $APP_NAME
+            spec:
+              containers:
+                - image: $IMG_NAME
+                  imagePullPolicy: Always
+                  name: $APP_NAME
+                  ports:
+                    - name: http
+                      containerPort: 8080
+              imagePullSecrets:
+                - name: $APP_NAME-registry-secret
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: $APP_NAME-service
+          namespace: $NAMESPACE
+        spec:
+          type: ClusterIP
+          selector:
+            app: $APP_NAME
+          ports:
+            - name: http
+              protocol: TCP
+              port: 80
+              targetPort: 8080
+        ---
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: $APP_NAME-ingress
+          namespace: $NAMESPACE
+        spec:
+          rules:
+          - host: ${ENV}.cluster.ensisa.uha.fr
+            http:
+              paths:
+              - path: /$APP_NAME
+                pathType: Prefix
+                backend:
+                  service:
+                    name: $APP_NAME-service
+                    port:
+                      number: 80
+        " > app.yml
+    - cat app.yml
+
+    # Deploy the yml
+    - kubectl ${ACTION} -f app.yml
+    - kubectl -n $NAMESPACE rollout restart deployment $APP_NAME 2>/dev/null || /bin/true
+
+deploy-staging:
+  <<: *kubernetes
+  variables:
+    ENV: staging
+    ACTION: apply
+  environment:
+    name: staging
+    url: https://staging.cluster.ensisa.uha.fr/${CI_PROJECT_NAMESPACE}-${CI_PROJECT_NAME}
+    on_stop: stop-staging
+
+deploy-prod:
+  <<: *kubernetes
+  variables:
+    ENV: prod
+    ACTION: apply
+  when: manual
+  environment:
+    name: production
+    url: https://prod.cluster.ensisa.uha.fr/${CI_PROJECT_NAMESPACE}-${CI_PROJECT_NAME}
+    on_stop: stop-prod
+
+stop-staging:
+  <<: *kubernetes
+  variables:
+    ENV: staging
+    ACTION: delete
+  when: manual
+  environment:
+    name: staging
+    action: stop
+
+stop-prod:
+  <<: *kubernetes
+  variables:
+    ENV: prod
+    ACTION: delete
+  when: manual
+  environment:
+    name: production
+    action: stop
