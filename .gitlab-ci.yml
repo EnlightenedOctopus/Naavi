@@ -39,6 +39,9 @@ compile:
   script: # many commands can appear here (as an array)
     - mvn $MAVEN_CLI_OPTS clean compile
 
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
 # Task: testing
 test:
   stage: test
@@ -50,9 +53,6 @@ test:
     reports:
       junit:        
         - "**/target/surefire-reports/TEST-*.xml"
-
-include:
-  - template: Security/SAST.gitlab-ci.yml
 
 # Task : spotbugs
 spotbugs:
