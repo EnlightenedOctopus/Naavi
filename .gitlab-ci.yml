@@ -51,6 +51,9 @@ test:
       junit:        
         - "**/target/surefire-reports/TEST-*.xml"
 
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
 # Task : spotbugs
 spotbugs:
   stage: test
