@@ -38,6 +38,7 @@ compile:
   stage: build
   script: # many commands can appear here (as an array)
     - mvn $MAVEN_CLI_OPTS clean compile
+    - mvn $MAVEN_CLI_OPTS -Dmaven.test.skip=true install
 
 include:
   - template: Security/SAST.gitlab-ci.yml
