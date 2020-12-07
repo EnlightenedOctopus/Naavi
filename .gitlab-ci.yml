@@ -55,6 +55,16 @@ test:
       junit:        
         - "**/target/surefire-reports/TEST-*.xml"
 
+# Task : Jacoco
+jacoco:
+  stage: test
+  script:
+    -  find . -name jacoco.csv -exec cat {} \; | awk -F, '{missed += $10 ; covered += $11} END {print "Jacoco Coverage:",100*covered/(covered+missed),"%"}'
+  coverage: /Jacoco Coverage:\s+\d+[,\.]?\d+\s+\%/
+  artifacts:
+    paths:
+      - "**/target/surefire-reports/*"
+
 # Task : spotbugs
 spotbugs:
   stage: test
