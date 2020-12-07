@@ -72,6 +72,9 @@
 							</limits>
 						</rule>
 					</rules>
+					<excludes>
+                        <exclude>fr/uha/ensisa/ff/spring_mvc_archetype/config/**/*.class</exclude>
+                    </excludes>
 				</configuration>
 				<executions>
 					<execution>
