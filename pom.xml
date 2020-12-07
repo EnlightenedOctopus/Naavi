@@ -67,13 +67,14 @@
 								<limit>
 									<counter>COMPLEXITY</counter>
 									<value>COVEREDRATIO</value>
-									<minimum>0.90</minimum>
+									<minimum>0.40</minimum>
 								</limit>
 							</limits>
 						</rule>
 					</rules>
 					<excludes>
                         <exclude>fr/uha/ensisa/ff/spring_mvc_archetype/config/**/*.class</exclude>
+                        <exclude>fr/uha/ensisa/ff/spring_mvc_archetype/controller/**/HomeController.class</exclude>
                     </excludes>
 				</configuration>
 				<executions>
