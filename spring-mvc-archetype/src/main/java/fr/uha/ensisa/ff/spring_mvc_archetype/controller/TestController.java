@@ -16,6 +16,11 @@ public class TestController {
 	
 	@Autowired
 	public DaoFactory daoFactory;
+	
+	@RequestMapping(value="/")
+	public String hello() throws IOException{
+		return "redirect:/hello";
+	}
 
 	@RequestMapping(value="/list")
 	public ModelAndView list() throws IOException{
