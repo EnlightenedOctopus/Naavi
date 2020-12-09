@@ -7,7 +7,7 @@
 	<body>
 		<ul id="tests">
 			<li th:each="test: ${tests}"
-				th:id="${'test_' + test.id }">[[${test.name}]]</li>
+				th:id="${'test_' + test.id }">Name : [[${test.name}]]<br>Description : [[${test.description}]]</li>
 		</ul>
 	</body>
 </html>
