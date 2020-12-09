@@ -8,7 +8,7 @@
 		<p>This is an example page.</p>
 		<div th:replace="../fragments/template :: footer"></div>
 		
-		<form th:action="@{/formadd}" method="GET" accept-charset="UTF-8">
+		<form th:action="@{/formadd}" method="POST" accept-charset="UTF-8">
 			<input type="submit" name="formadd" value="create">
 		</form>
 	</body>
