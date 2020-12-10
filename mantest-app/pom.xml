@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.uha.ensisa.ff</groupId>
-	<artifactId>spring-mvc-archetype</artifactId>
+	<artifactId>mantest-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>spring-mvc-archetype</name>
+	<name>mantest-app</name>
 	<url>http://maven.apache.org</url>
 	
 	<parent>

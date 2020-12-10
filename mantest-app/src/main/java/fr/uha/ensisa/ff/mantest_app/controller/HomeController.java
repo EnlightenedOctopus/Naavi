@@ -1,4 +1,4 @@
-package fr.uha.ensisa.ff.spring_mvc_archetype.controller;
+package fr.uha.ensisa.ff.mantest_app.controller;
 
 import java.io.IOException;
 

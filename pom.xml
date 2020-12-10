@@ -73,8 +73,8 @@
 						</rule>
 					</rules>
 					<excludes>
-                        <exclude>fr/uha/ensisa/ff/spring_mvc_archetype/config/**/*.class</exclude>
-                        <exclude>fr/uha/ensisa/ff/spring_mvc_archetype/controller/**/HomeController.class</exclude>
+                        <exclude>fr/uha/ensisa/ff/mantest_app/config/**/*.class</exclude>
+                        <exclude>fr/uha/ensisa/ff/mantest_app/controller/**/HomeController.class</exclude>
                     </excludes>
 				</configuration>
 				<executions>
@@ -107,6 +107,6 @@
 	<modules>
 		<module>mantest-model</module>
 		<module>mantest-dao-mem</module>
-		<module>spring-mvc-archetype</module>
+		<module>mantest-app</module>
 	</modules>
 </project>

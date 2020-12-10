@@ -2,7 +2,7 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>spring-mvc-archetype</display-name>
+	<display-name>mantest-app</display-name>
 	
 	<filter>
 		<filter-name>encoding-filter</filter-name>
@@ -35,7 +35,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>fr.uha.ensisa.ff.spring_mvc_archetype</param-value>
+			<param-value>fr.uha.ensisa.ff.mantest_app</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

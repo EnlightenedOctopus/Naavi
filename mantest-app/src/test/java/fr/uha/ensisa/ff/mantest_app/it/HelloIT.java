@@ -1,4 +1,4 @@
-package fr.uha.ensisa.ff.spring_mvc_archetype.it;
+package fr.uha.ensisa.ff.mantest_app.it;
 
 import static org.junit.jupiter.api.Assertions.*;
 
