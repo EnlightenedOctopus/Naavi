@@ -98,8 +98,7 @@ integration-test:
         - "**/target/surefire-reports/TEST-*.xml"
   only:
     variables:
-      - master
-      - $CI_PIPELINE_SOURCE == "Develop-*"
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint2") 
 
 deploy-docker:
   stage: deploy
@@ -126,8 +125,7 @@ deploy-docker:
     - docker push $IMG_NAME
   only:
     variables:
-      - master
-      - $CI_PIPELINE_SOURCE == "Develop-*"
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint2") 
 
 .kubernetes: &kubernetes
   stage: run
