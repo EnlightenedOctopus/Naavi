@@ -7,7 +7,13 @@
 	<body>
 		<ul id="tests">
 			<li th:each="test: ${tests}"
-				th:id="${'test_' + test.id }">Name : [[${test.name}]]<br>Description : [[${test.description}]]</li>
+				th:id="${'test_' + test.id }">Name : [[${test.name}]]<br>Description : [[${test.description}]]
+				<form th:action="@{/delete}" method="POST" accept-charset="UTF-8">
+					<input type="hidden" name="id" id="hid_id" th:value="${test.id}">
+					<input type="submit" name="delete" value="delete">
+				</form>
+			</li>
 		</ul>
+		
 	</body>
 </html>

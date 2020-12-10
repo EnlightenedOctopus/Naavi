@@ -24,7 +24,7 @@ class TestControllerTest {
 	public TestController sut;
 	
 	@BeforeEach
-	public void prepareDao() {
+	public void prepareDao(){
 		MockitoAnnotations.openMocks(this); // crée les @Mock
 		Mockito.when(daoFactory.getTestDao()).thenReturn(this.daoTask);
 		sut = new TestController(); // System Under Test
@@ -54,7 +54,7 @@ class TestControllerTest {
 		ArgumentCaptor<fr.uha.ensisa.gl.turbocheese.mantest.Test> removed =
 				ArgumentCaptor.forClass(fr.uha.ensisa.gl.turbocheese.mantest.Test.class);
 		Mockito.verify(daoTask).remove(removed.capture());
-	assertEquals(Long.valueOf(removedId), removed.getValue().getId());
+		assertEquals(Long.valueOf(removedId), removed.getValue().getId());
 	}*/
 
 }

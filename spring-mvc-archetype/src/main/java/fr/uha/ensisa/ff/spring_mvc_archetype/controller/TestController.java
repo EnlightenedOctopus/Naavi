@@ -46,5 +46,12 @@ public class TestController {
 		daoFactory.getTestDao().persist(newTest);
 		return "redirect:/list";
 	}
+	
+	@RequestMapping(value="/delete")
+	public String delete(@RequestParam(required=true) long id) throws IOException{
+		Test deleteTest = daoFactory.getTestDao().find(id);
+		daoFactory.getTestDao().remove(deleteTest);
+		return "redirect:/list";
+	}
 
 }
