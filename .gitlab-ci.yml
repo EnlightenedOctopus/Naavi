@@ -95,6 +95,9 @@ integration-test:
     reports:
       junit:
         - "**/target/surefire-reports/TEST-*.xml"
+  only:
+    - master
+    - "Develop-*"
 
 deploy-docker:
   stage: deploy
@@ -119,6 +122,9 @@ deploy-docker:
     - docker build -t $IMG_NAME .
     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} registry.cluster.ensisa.uha.fr
     - docker push $IMG_NAME
+  only:
+    - master
+    - "Develop-*"
 
 .kubernetes: &kubernetes
   stage: run
