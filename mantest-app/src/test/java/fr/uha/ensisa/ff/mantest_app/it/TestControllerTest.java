@@ -30,7 +30,7 @@ class TestControllerTest {
 		sut = new TestController(); // System Under Test
 		sut.daoFactory = this.daoFactory;
 	}
-	
+	//Test
 	@Test
 	public void emptyList() throws IOException{
 		ModelAndView ret = sut.list();
