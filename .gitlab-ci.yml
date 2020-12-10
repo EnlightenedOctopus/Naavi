@@ -97,8 +97,9 @@ integration-test:
       junit:
         - "**/target/surefire-reports/TEST-*.xml"
   only:
-    - master
-    - $CI_PIPELINE_SOURCE == "Develop-*"
+    variables:
+      - master
+      - $CI_PIPELINE_SOURCE == "Develop-*"
 
 deploy-docker:
   stage: deploy
@@ -124,8 +125,9 @@ deploy-docker:
     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} registry.cluster.ensisa.uha.fr
     - docker push $IMG_NAME
   only:
-    - master
-    - $CI_PIPELINE_SOURCE == "Develop-Sprint2"
+    variables:
+      - master
+      - $CI_PIPELINE_SOURCE == "Develop-*"
 
 .kubernetes: &kubernetes
   stage: run
