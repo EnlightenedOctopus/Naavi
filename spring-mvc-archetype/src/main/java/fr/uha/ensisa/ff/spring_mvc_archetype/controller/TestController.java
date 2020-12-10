@@ -29,13 +29,20 @@ public class TestController {
 		return ret;
 	}
 	
+	@RequestMapping(value="/formadd")
+	public ModelAndView formAdd() throws IOException{
+		ModelAndView ret = new ModelAndView("formadd");
+		return ret;
+	}
+	
 	@RequestMapping(value="/create")
-	public String create(@RequestParam(required=true) String testName) throws IOException{
+	public String create(@RequestParam(required=true) String testName, @RequestParam(required=true) String testDescription) throws IOException{
 		Test newTest = new Test();
 		long id = daoFactory.getTestDao().count()+1;
 		while(daoFactory.getTestDao().find(id) != null) id++;
 		newTest.setId(id);
 		newTest.setName(testName);
+		newTest.setDescription(testDescription);
 		daoFactory.getTestDao().persist(newTest);
 		return "redirect:/list";
 	}

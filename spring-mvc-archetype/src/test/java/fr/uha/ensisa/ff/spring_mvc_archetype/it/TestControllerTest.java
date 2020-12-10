@@ -42,7 +42,7 @@ class TestControllerTest {
 	
 	@Test
 	public void createTest() throws IOException{
-		sut.create("");
+		sut.create("", "");
 		//Il faut qu'un persist ait été appelé sur daoTask
 		Mockito.verify(daoTask).persist(Mockito.any(fr.uha.ensisa.gl.turbocheese.mantest.Test.class));
 	}
