@@ -48,7 +48,6 @@ test:
   stage: test
   script:    
     - mvn $MAVEN_CLI_OPTS test
-    - cat target/site/jacoco/index.html
   artifacts: # results of the stage
     paths:      
       - "**/target/surefire-reports/*"
