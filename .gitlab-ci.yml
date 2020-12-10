@@ -124,7 +124,8 @@ deploy-docker:
     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} registry.cluster.ensisa.uha.fr
     - docker push $IMG_NAME
   only:
-    BRANCH_TO_RUN
+    - master
+    - BRANCH_TO_RUN
 
 .kubernetes: &kubernetes
   stage: run
