@@ -98,7 +98,7 @@ integration-test:
         - "**/target/surefire-reports/TEST-*.xml"
   only:
     variables:
-      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == /^Develop-Sprint[0-9]/g) 
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "/^Develop-Sprint[0-9]/g") 
 
 deploy-docker:
   stage: deploy
