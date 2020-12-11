@@ -1,4 +1,4 @@
-package fr.uha.ensisa.ff.spring_mvc_archetype.config;
+package fr.uha.ensisa.ff.mantest_app.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,8 +19,9 @@ import org.thymeleaf.templatemode.TemplateMode;
 import fr.uha.ensisa.gl.turbocheese.mantest.dao.DaoFactory;
 import fr.uha.ensisa.gl.turbocheese.mantest.dao.mem.DaoFactoryMem;
 
+
 @Configuration
-@ComponentScan(basePackages="fr.uha.ensisa.ff.spring_mvc_archetype")
+@ComponentScan(basePackages="fr.uha.ensisa.ff.mantest_app")
 @EnableWebMvc
 public class MvcConfiguration implements WebMvcConfigurer {
 	@Autowired

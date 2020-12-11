@@ -1,4 +1,4 @@
-package fr.uha.ensisa.ff.spring_mvc_archetype.it;
+package fr.uha.ensisa.ff.mantest_app.it;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.uha.ensisa.ff.spring_mvc_archetype.controller.TestController;
+import fr.uha.ensisa.ff.mantest_app.controller.TestController;
 import fr.uha.ensisa.gl.turbocheese.mantest.dao.DaoFactory;
 import fr.uha.ensisa.gl.turbocheese.mantest.dao.TestDao;
 
@@ -30,7 +30,7 @@ class TestControllerTest {
 		sut = new TestController(); // System Under Test
 		sut.daoFactory = this.daoFactory;
 	}
-	
+	//Test
 	@Test
 	public void emptyList() throws IOException{
 		ModelAndView ret = sut.list();

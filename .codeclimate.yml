@@ -8,9 +8,9 @@ plugins:
         - src/test/**
         - mantest-model/src/test/java/fr/uha/ensisa/gl/turbocheese/mantest/**
         - mantest-dao-mem/src/main/java/fr/uha/ensisa/gl/turbocheese/mantest/dao/mem/**
-        - spring-mvc-archetype/src/test/java/fr/uha/ensisa/ff/spring_mvc_archetype/it/**
+        - mantest-app/src/test/java/fr/uha/ensisa/ff/mantest_app/it/**
     exclude_patterns:
         - "lib/foundation.js"
         - "**/*.rb"
         - mantest-model/src/main/**
-        - spring-mvc-archetype/src/main/**
+        - mantest-app/src/main/**
