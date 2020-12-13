@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Report {
 	private ArrayList<ExecutedTest> tests;
 	
+	public Report() {
+		tests= new ArrayList<ExecutedTest>();
+	}
+	
 	public int getCountTest() {
 		return tests.size();
 	}
@@ -13,10 +17,6 @@ public class Report {
 	}
 	public void addExecutedTest(ExecutedTest t) {
 		tests.add(t);
-	}
-	public void removeTest(int index) {
-		tests.remove(index);
-	}
-	
+	}	
 	
 }

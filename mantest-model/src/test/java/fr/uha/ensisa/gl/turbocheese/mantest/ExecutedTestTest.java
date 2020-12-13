@@ -1,25 +1,36 @@
 package fr.uha.ensisa.gl.turbocheese.mantest;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 public class ExecutedTestTest {
-		fr.uha.ensisa.gl.turbocheese.mantest.ExecutedTest sut; // System Under Test
+		ExecutedTest sut; // System Under Test
 
 		
 		@Test
 		@DisplayName("Constructor Executed Test Failed")
 		void CorrectExecutedTestCreated() {
-			fr.uha.ensisa.gl.turbocheese.mantest.ExecutedTest.State s =  fr.uha.ensisa.gl.turbocheese.mantest.ExecutedTest.State.SUCESS;
+			ExecutedTest.State s =  ExecutedTest.State.SUCCESS;
 			String testcomment = "Ce test a malheureusement raté";
 			fr.uha.ensisa.gl.turbocheese.mantest.Test t = new fr.uha.ensisa.gl.turbocheese.mantest.Test();
-			fr.uha.ensisa.gl.turbocheese.mantest.ExecutedTest sut = new fr.uha.ensisa.gl.turbocheese.mantest.ExecutedTest(t,s,testcomment);
+			ExecutedTest sut = new ExecutedTest(t,s,testcomment);
 			assertEquals(testcomment,sut.getComment());
 			assertNull(sut.getTest().getName());
 			assertEquals(0,sut.getTest().getId());
 			sut.getTest().setId(12);
 			assertEquals(12,sut.getTest().getId());
 			assertEquals(s,sut.getState());
+		}
+		
+		@Test
+		@DisplayName("Fast Constructor Success Test Failed")
+		void ExecutedTestSuccessCreated() {
+			fr.uha.ensisa.gl.turbocheese.mantest.Test t = new fr.uha.ensisa.gl.turbocheese.mantest.Test();
+			ExecutedTest sut = new ExecutedTest(t);
+			assertEquals(t,sut.getTest());
+			assertEquals(ExecutedTest.State.SUCCESS,sut.getState());
+			assertNull(sut.getComment());
 		}
 }
