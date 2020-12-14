@@ -14,6 +14,9 @@
 				</form>
 			</li>
 		</ul>
-		
+		<form th:action="@{/execute}" method="POST" accept-charset="UTF-8">
+			<input type="hidden" name="id" value="start">
+			<input type="submit" name="execute" value="execute">
+		</form>
 	</body>
 </html>
