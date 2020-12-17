@@ -11,6 +11,13 @@
 			<input type="text" name="testName"><br>
 			<label> Description </label><br>
 			<input type="text" name="testDescription"><br>
+			<input type="hidden" name="listId" value="0">
+			<input type="submit" name="create" value="create">
+		</form>
+		<form th:action="@{/createlist}" method="POST" accept-charset="UTF-8">
+			<label> Name </label><br>
+			<input type="text" name="listName"><br>
+			<label> Description </label><br>
 			<input type="submit" name="create" value="create">
 		</form>
 	</body>

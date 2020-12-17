@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset UTF-8">
+	 <head th:include="../fragments/template :: head(~{::title})">
 		<title>Tests list</title>
 	</head>
 	<body>
-		<ul id="tests">
-			<li th:each="test: ${tests}"
-				th:id="${'test_' + test.id }">Name : [[${test.name}]]<br>Description : [[${test.description}]]
-				<form th:action="@{/delete}" method="POST" accept-charset="UTF-8">
-					<input type="hidden" name="id" id="hid_id" th:value="${test.id}">
-					<input type="submit" name="delete" value="delete">
-				</form>
-			</li>
-		</ul>
+		<div class="center">
+			<h1 class="display-1">Test2Test</h1>
+			<h2 class="display-4">by Turbo Cheese</h2> 
+		</div>
+		<table th:each="testlist, stat: ${testlists}" th:id="${testlist.id}" th:object="${testlist}" class="table-dark">
+			<tr><th class="">[[*{name}]]</th></tr>
+			<tr th:each="test:*{tests}">
+				<td>[[${test.name}]]</td>
+				<td>
+					<form th:action="@{/delete}" method="POST" accept-charset="UTF-8">
+						<input type="hidden" name="id" id="hid_id" th:value="${test.id}">
+						<input type="submit" name="delete" value="delete">
+					</form>
+				</td>
+			</tr>
+		</table>
+	
 		
 	</body>
 </html>

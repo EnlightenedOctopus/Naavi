@@ -1,29 +1,25 @@
 package fr.uha.ensisa.gl.turbocheese.mantest;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
+import java.util.TreeMap;
 
 public class TestList {
-	private ArrayList<Test> tList = new ArrayList<Test>();
+	private TreeMap<Long, Test> tList = new TreeMap<Long, Test>();
 	private String name;
-	private int id;
+	private long id;
 	
-	public TestList(String name, int id) {
+	public TestList(String name, Long id) {
 		this.name=name;
 		this.id=id;
 	}
 	
-	public Iterator<Test> getListIterator() {
-		return this.tList.iterator();
-	}
-	
 	public void addTest(Test test) {
-		this.tList.add(test);
+		this.tList.put(test.getId(), test);
 	}
 	
-	public void deleteTest(Test test) {
-		this.tList.remove(test);
-		//On détruit le test aussi de la mémoire ?
+	public void deleteTest(Long id) {
+		this.tList.remove(id);
+
 	}
 	
 	public String getName() {
@@ -34,12 +30,20 @@ public class TestList {
 		this.name=name;
 	}
 	
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id=id;
+	}
+	
+	public int size() {
+		return this.tList.size();
+	}
+	
+	public Collection<Test> getTests(){
+		return this.tList.values();
 	}
 	
 
