@@ -8,19 +8,48 @@
 			<h1 class="display-1">Test2Test</h1>
 			<h2 class="display-4">by Turbo Cheese</h2> 
 		</div>
-		<table th:each="testlist, stat: ${testlists}" th:id="${testlist.id}" th:object="${testlist}" class="table-dark">
-			<tr><th class="">[[*{name}]]</th></tr>
+		<table th:each="testlist, stat: ${testlists}" th:id="${testlist.id}" th:object="${testlist}" class="table">
+			<tr><th class="listname">[[*{name}]]</th><th></th>
+				<th class="double-button">
+					<form th:action="@{/deletelist}" method="POST" accept-charset="UTF-8">
+						<input type="hidden" name="id" id="hid_id" th:value="*{id}">
+						<input type="submit" name="delete" value="delete" class="btn btn-danger">
+					</form>
+					<button class="btn btn-success" onclick="addTest(this)" th:listid="*{id}">Add Test</button>
+				</th>
+			</tr>
 			<tr th:each="test:*{tests}">
-				<td>[[${test.name}]]</td>
+				<th class="testname">[[${test.name}]]</th><td>[[${test.description}]]</td>
 				<td>
 					<form th:action="@{/delete}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="id" id="hid_id" th:value="${test.id}">
-						<input type="submit" name="delete" value="delete">
+						<input type="submit" name="delete" value="delete" class="btn btn-danger">
 					</form>
 				</td>
 			</tr>
 		</table>
-	
+		<div class="center"><button class="btn btn-success" onclick="addTestList()">Add Test List</button></div>
+		<div id="addtestlist" class="inactive">
+			<form th:action="@{/createlist}" method="POST" accept-charset="UTF-8" name="addtestForm">
+				<input type="text" name="listName" class="form-control" placeholder="List Name">
+				<div>
+					<input type="button" class="btn btn-danger" onclick="cancelAdd()" value="Cancel">
+					<input type="submit" name="addTest" value="Add Test List" class="btn btn-success">
+				</div>
+			</form>
+		</div>
+		<div id="addtest" class="inactive">
+			<form th:action="@{/addtest}" method="POST" accept-charset="UTF-8" name="addTestForm">
+				<input type="hidden" name="listId" id="addtestlistid" value="0">
+				<input type="text" name="testName" class="form-control" placeholder="Test Name">
+				<textarea name="testDescription" class="form-control" placeholder="Test Descrption"></textarea>
+				<div>
+					<input type="button" class="btn btn-danger" onclick="cancelAdd()" value="Cancel">
+					<input type="submit" name="addTest" value="Add Test" class="btn btn-success">
+				</div>
+			</form>
+		</div>
+		<div th:replace="../fragments/template :: footer"></div>
 		
 	</body>
 </html>

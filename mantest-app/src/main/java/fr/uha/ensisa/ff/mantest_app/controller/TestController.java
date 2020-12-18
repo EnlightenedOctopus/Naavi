@@ -74,5 +74,33 @@ public class TestController {
 		daoFactory.getTestDao().remove(deleteTest);
 		return "redirect:/list";
 	}
+	
+	@RequestMapping(value="/deletelist")
+	public String deletelist(@RequestParam(required=true) long id) throws IOException{
+		daoFactory.getTestListDao().remove(daoFactory.getTestListDao().find(id));
+		return "redirect:/list";
+	}
+	
+	@RequestMapping(value="/addtest")
+	public String addtest(@RequestParam(required=true) String testName, @RequestParam(required=true) String testDescription, @RequestParam(required=true) Long listId) throws IOException{
+		Test newTest = new Test();
+		long id = daoFactory.getTestDao().count()+1;
+		while(daoFactory.getTestDao().find(id) != null) id++;
+		newTest.setId(id);
+		newTest.setName(testName);
+		newTest.setDescription(testDescription);
+		daoFactory.getTestDao().persist(newTest);
+		if(daoFactory.getTestListDao().find(listId) != null) {
+			daoFactory.getTestListDao().find(listId).addTest(newTest);
+		}
+		else {
+			if(daoFactory.getTestListDao().count()==(long)0) {
+				daoFactory.getTestListDao().persist(new TestList("default",(long)0));
+			}
+			daoFactory.getTestListDao().find((long)0).addTest(newTest);
+		}
+		
+		return "redirect:/list";
+	}
 
 }

@@ -6,7 +6,72 @@ body, html{
 .center{
 	width:100%;
 	display:flex;
-	justify-content:center;
-	flex-wrap:wrap;
+	align-items:center;
+	flex-direction:column;
 }
 
+
+.table{
+	width:90%;
+	margin:auto;
+	margin-top:50px;
+}
+
+}
+th, td{
+	padding: 10px;
+}
+
+#addtest, #addtestlist{
+	position:fixed;
+	top:0;
+	width:100%;
+	height:100vh;
+	background:rgba(1,1,1,0.5);
+	transition-duration:0.5s;
+}
+
+#addtest>form, #addtestlist>form{
+	height:100%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+	padding:200px;
+}
+
+.inactive{
+	transform:TranslateY(-100vh);
+}
+
+.active{
+	transform:TranslateY(0vh);
+}
+
+input[type="text"], textarea{
+	margin-bottom:10px;
+}
+.double-button{
+	display:flex;
+	justify-content: flex-end;	
+}
+
+.double-button>button{
+	margin-left:10px;
+}
+
+td:nth-child(3){
+	width: 100px;
+}
+
+.listname{
+	font-size:20px;
+}
+
+.testname{
+	width:100px;
+}
+
+.center>button{
+	margin-top:20px;
+}
