@@ -46,5 +46,8 @@ public class TestList {
 		return this.tList.values();
 	}
 	
+	public Test find(long id) {
+		return tList.get(id);	
+	}
 
 }

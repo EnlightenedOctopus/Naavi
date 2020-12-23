@@ -6,24 +6,29 @@
 	<body>
 		<div class="center">
 			<h1 class="display-1">Test2Test</h1>
-			<h2 class="display-4">by Turbo Cheese</h2> 
+			<h2 class="display-4">by TurboCheese</h2> 
 		</div>
 		<table th:each="testlist, stat: ${testlists}" th:id="${testlist.id}" th:object="${testlist}" class="table">
 			<tr><th class="listname">[[*{name}]]</th><th></th>
 				<th class="double-button">
+					<button class="btn btn-success" onclick="addTest(this)" th:listid="*{id}">Add Test</button>
 					<form th:action="@{/deletelist}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="id" id="hid_id" th:value="*{id}">
-						<input type="submit" name="delete" value="delete" class="btn btn-danger">
+						<input type="submit" name="delete" value="Delete" class="btn btn-danger">
 					</form>
-					<button class="btn btn-success" onclick="addTest(this)" th:listid="*{id}">Add Test</button>
+					<form th:action="@{/execute}" method="POST" accept-charset="UTF-8">
+						<input type="hidden" name="id" id="hid_id" th:value="*{id}">
+						<input type="submit" name="execute" value="Execute" class="btn btn-primary">
+					</form>
 				</th>
 			</tr>
 			<tr th:each="test:*{tests}">
 				<th class="testname">[[${test.name}]]</th><td>[[${test.description}]]</td>
 				<td>
 					<form th:action="@{/delete}" method="POST" accept-charset="UTF-8">
-						<input type="hidden" name="id" id="hid_id" th:value="${test.id}">
-						<input type="submit" name="delete" value="delete" class="btn btn-danger">
+						<input type="hidden" name="listId" th:value="*{id}">
+						<input type="hidden" name="id" th:value="${test.id}">
+						<input type="submit" name="delete" value="Delete" class="btn btn-danger delete-test">
 					</form>
 				</td>
 			</tr>
