@@ -49,4 +49,9 @@ public class ReportTest {
 		}
 	}
 	
+	@Test
+	@DisplayName("Error in Report date")
+	public void dateReport() {
+		//Have to mock the System to give a correct date of creation and to test them...
+	}
 }
