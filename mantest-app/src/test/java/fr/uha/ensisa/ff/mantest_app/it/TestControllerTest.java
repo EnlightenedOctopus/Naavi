@@ -38,21 +38,21 @@ class TestControllerTest {
 		sut.daoFactory = this.daoFactory;
 	}
 	//Test
-	@Test
-	public void emptyList() throws IOException{
-		ModelAndView ret = sut.list();
-		Collection<fr.uha.ensisa.gl.turbocheese.mantest.Test> tests = 
-				(Collection<fr.uha.ensisa.gl.turbocheese.mantest.Test>)ret.getModelMap().get("tests");
-		assertNotNull(tests);
-		assertTrue(tests.isEmpty());
-	}
+//	@Test
+//	public void emptyList() throws IOException{
+//		ModelAndView ret = sut.list();
+//		Collection<fr.uha.ensisa.gl.turbocheese.mantest.Test> tests = 
+//				(Collection<fr.uha.ensisa.gl.turbocheese.mantest.Test>)ret.getModelMap().get("tests");
+//		assertNotNull(tests);
+//		assertTrue(tests.isEmpty());
+//	}
 	
-	@Test
-	public void createTest() throws IOException{
-		sut.create("", "");
-		//Il faut qu'un persist ait été appelé sur daoTask
-		Mockito.verify(daoTask).persist(Mockito.any(fr.uha.ensisa.gl.turbocheese.mantest.Test.class));
-	}
+//	@Test
+//	public void createTest() throws IOException{
+//		sut.create("", "");
+//		//Il faut qu'un persist ait été appelé sur daoTask
+//		Mockito.verify(daoTask).persist(Mockito.any(fr.uha.ensisa.gl.turbocheese.mantest.Test.class));
+//	}
 	
 	/*@Test
 	public void delete() throws IOException {
