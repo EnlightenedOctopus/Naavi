@@ -25,4 +25,13 @@ public class TestTest {
 			sut.setId(id);
 			assertEquals(12, sut.getId());
 		}
+		
+		@Test
+		@DisplayName("Test Description failed")
+		void setDescription() {
+			assertNull(sut.getDescription());
+			String desc = "A really sophisticated description";
+			sut.setDescription(desc);
+			assertEquals(desc, sut.getDescription());
+		}
 }

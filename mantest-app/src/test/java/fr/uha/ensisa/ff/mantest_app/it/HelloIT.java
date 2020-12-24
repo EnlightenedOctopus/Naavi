@@ -15,6 +15,7 @@ import java.util.Collection;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -91,5 +92,15 @@ public class HelloIT{
 			}
 		}
 	}
-
+	
+	@Test
+	@DisplayName("Redirect Error")
+	public void redictionTest() throws IOException{
+		HttpURLConnection co = (HttpURLConnection)new URL(getBaseUrl()).openConnection();
+		co.connect();
+		assertEquals(200,co.getResponseCode());
+		assertEquals((getBaseUrl()+"list"),co.getURL().toString());
+		co.connect();
+	}
+	
 }

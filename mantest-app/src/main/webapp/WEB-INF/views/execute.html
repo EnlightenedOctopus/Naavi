@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset UTF-8">
+		<title>Tests Execute</title>
+	</head>
+	<body>
+		<h1>Test : [[${testtoexecute.name}]]</h1>
+		<h2>[[${testtoexecute.description}]]</h2>
+		<form th:action="@{/next}" method="POST" accept-charset="UTF-8">
+  			<input type="radio" id="success" name="state" value="success">
+  			<label for="male">Reussite</label><br>
+  			<input type="radio" id="fail" name="state" value="fail">
+  			<label for="female">Echec</label><br>
+ 			<input type="radio" id="skip" name="state" value="skip">
+  			<label for="other">Non testé</label><br>	
+  			<label> Commentaire </label><br>
+  			<input type="text" name="comment"><br>
+  			<input type="hidden" name="id" id="hid_id" th:value="${testtoexecute.id}">
+  			<div th:if="${hasnext}">
+  				<input type="submit" name="next" value="next">
+  			</div>
+  			<div th:unless="${hasnext}">
+  				<input type="submit" name="next" value="end">
+  			</div>
+		</form> 
+	</body>
+</html>
