@@ -22,6 +22,7 @@ public class TestController {
 	public DaoFactory daoFactory;
 	
 	private Report report;
+	private Iterator<Test> iterator;
 	
 	@RequestMapping(value="/")
 	public String hello() throws IOException{
@@ -60,26 +61,36 @@ public class TestController {
 		return "redirect:/list";
 	}
 	@RequestMapping(value="/execute")
-	public ModelAndView execute(@RequestParam(required=true) String id) throws IOException {
-		if (id=="start") {
-			//DO SOMETHING WITH REPORT
+	public ModelAndView execute(@RequestParam(required=false) String id) throws IOException {
+		if (id!=null) {
+			initialiseExecute();
 		}
-		Iterator<Test> i = daoFactory.getTestDao().findAll().iterator();
 		ModelAndView ret = new ModelAndView("execute");
-		ret.addObject("testtoexecute",i.next());
+		ret.addObject("testtoexecute",iterator.next());
+		ret.addObject("hasnext", iterator.hasNext());
 		return ret;
 	}
+	
+	public void initialiseExecute() {
+		report = new Report();
+		iterator = daoFactory.getTestDao().findAll().iterator();
+	}
+	
 	@RequestMapping(value="/next")
-	public String next(@RequestParam(required=true) String state, @RequestParam(required=true) String comment, @RequestParam(required=true) long id) throws IOException {
+	public String next(@RequestParam(required=false) String next, @RequestParam(required=true) String state, @RequestParam(required=true) String comment, @RequestParam(required=true) long id) throws IOException {
 		ExecutedTest.State s;
 		switch (state) {
 		case "success" : s=State.SUCCESS; break;
 		case "fail" : s=State.FAILED; break;
 		default : s=State.SKIPED;
 		}
-		//ExecutedTest et = new ExecutedTest(daoFactory.getTestDao().find(id), s , comment);
-		//report.addExecutedTest(et);
-		return "redirect:/list";
+		ExecutedTest et = new ExecutedTest(daoFactory.getTestDao().find(id), s , comment);
+		report.addExecutedTest(et);
+		if (next.equals("end")) {
+			daoFactory.getReportDao().addReport(report);
+			return "redirect:/list";
+		}
+		return "redirect:/execute";
 	}
 	
 }

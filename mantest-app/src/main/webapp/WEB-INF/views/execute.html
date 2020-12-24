@@ -17,7 +17,12 @@
   			<label> Commentaire </label><br>
   			<input type="text" name="comment"><br>
   			<input type="hidden" name="id" id="hid_id" th:value="${testtoexecute.id}">
-  			<input type="submit" name="next" value="next">
+  			<div th:if="${hasnext}">
+  				<input type="submit" name="next" value="next">
+  			</div>
+  			<div th:unless="${hasnext}">
+  				<input type="submit" name="next" value="end">
+  			</div>
 		</form> 
 	</body>
 </html>
