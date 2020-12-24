@@ -20,6 +20,7 @@ before_script:
 variables:
   MAVEN_CLI_OPTS: "--batch-mode -s settings.xml -Dmaven.repo.local=libs"
   # Folders to be reused from tasks to tasks
+  BRANCH_TO_RUN: "Develop-Sprint2"
 
 cache:
   paths:    
@@ -88,13 +89,16 @@ integration-test:
     - selenium/standalone-firefox:3.141.59
   stage: integration-test
   script:
-    - mvn $MAVEN_CLI_OPTS -f spring-mvc-archetype -Dselenium.remote.browser=firefox -Dmaven.test.skip=true verify
+    - mvn $MAVEN_CLI_OPTS -f mantest-app -Dselenium.remote.browser=firefox -Dmaven.test.skip=true verify
   artifacts:
     paths:
       - "**/target/surefire-reports/*"
     reports:
       junit:
         - "**/target/surefire-reports/TEST-*.xml"
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint2") 
 
 deploy-docker:
   stage: deploy
@@ -119,6 +123,9 @@ deploy-docker:
     - docker build -t $IMG_NAME .
     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} registry.cluster.ensisa.uha.fr
     - docker push $IMG_NAME
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint2") 
 
 .kubernetes: &kubernetes
   stage: run
