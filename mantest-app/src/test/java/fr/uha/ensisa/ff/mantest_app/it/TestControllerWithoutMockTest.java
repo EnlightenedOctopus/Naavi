@@ -15,6 +15,7 @@ import fr.uha.ensisa.ff.mantest_app.controller.TestController;
 import fr.uha.ensisa.gl.turbocheese.mantest.ExecutedTest;
 import fr.uha.ensisa.gl.turbocheese.mantest.ExecutedTest.State;
 import fr.uha.ensisa.gl.turbocheese.mantest.Report;
+import fr.uha.ensisa.gl.turbocheese.mantest.TestList;
 import fr.uha.ensisa.gl.turbocheese.mantest.dao.DaoFactory;
 import fr.uha.ensisa.gl.turbocheese.mantest.dao.mem.DaoFactoryMem;
 
@@ -35,7 +36,8 @@ public class TestControllerWithoutMockTest {
 	public void successReportTest() throws IOException {
 		long id = 19l;
 		ExecutedTest et = new ExecutedTest(null,State.SUCCESS, "Ceci est un super commentaire");
-		sut.initialiseExecute();
+		daoFactory.getTestListDao().persist(new TestList("", 0l));
+		sut.initialiseExecute(0l);
 		sut.next("end", "success", et.getComment(), id);
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
@@ -50,7 +52,8 @@ public class TestControllerWithoutMockTest {
 	public void failedReportTest() throws IOException {
 		long id = 19l;
 		ExecutedTest et = new ExecutedTest(null,State.FAILED, "Ceci est un super commentaire");
-		sut.initialiseExecute();
+		daoFactory.getTestListDao().persist(new TestList("", 0l));
+		sut.initialiseExecute(0l);
 		sut.next("end", "fail", et.getComment(), id);
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
@@ -65,7 +68,8 @@ public class TestControllerWithoutMockTest {
 	public void skipedReportTest() throws IOException {
 		long id = 19l;
 		ExecutedTest et = new ExecutedTest(null,State.SKIPED, "Ceci est un super commentaire");
-		sut.initialiseExecute();
+		daoFactory.getTestListDao().persist(new TestList("", 0l));
+		sut.initialiseExecute(0l);
 		sut.next("end", "skiped", et.getComment(), id);
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());

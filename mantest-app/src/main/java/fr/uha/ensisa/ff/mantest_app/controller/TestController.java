@@ -137,9 +137,9 @@ public class TestController {
 		return "redirect:/list";
 	}
 	@RequestMapping(value="/execute")
-	public ModelAndView execute(@RequestParam(required=false) String id) throws IOException {
+	public ModelAndView execute(@RequestParam(required=false) Long id) throws IOException {
 		if (id!=null) {
-			initialiseExecute();
+			initialiseExecute(id);
 		}
 		ModelAndView ret = new ModelAndView("execute");
 		ret.addObject("testtoexecute",iterator.next());
@@ -147,9 +147,9 @@ public class TestController {
 		return ret;
 	}
 	
-	public void initialiseExecute() {
+	public void initialiseExecute(long idlist) {
 		report = new Report();
-		iterator = daoFactory.getTestDao().findAll().iterator();
+		iterator = daoFactory.getTestListDao().find(idlist).getTests().iterator();
 	}
 	
 	@RequestMapping(value="/next")
