@@ -99,7 +99,7 @@ public class HelloIT{
 		HttpURLConnection co = (HttpURLConnection)new URL(getBaseUrl()).openConnection();
 		co.connect();
 		assertEquals(200,co.getResponseCode());
-		assertEquals((getBaseUrl()+"hello"),co.getURL().toString());
+		assertEquals((getBaseUrl()+"list"),co.getURL().toString());
 		co.connect();
 	}
 	
