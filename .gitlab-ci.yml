@@ -20,7 +20,7 @@ before_script:
 variables:
   MAVEN_CLI_OPTS: "--batch-mode -s settings.xml -Dmaven.repo.local=libs"
   # Folders to be reused from tasks to tasks
-  BRANCH_TO_RUN: "Develop-Sprint2"
+  BRANCH_TO_RUN: "Develop-Sprint3"
 
 cache:
   paths:    
@@ -82,6 +82,9 @@ include:
 code_quality:
   artifacts:
     paths: [gl-code-quality-report.json]
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint3") 
 
 # Task : integration testing
 integration-test:
@@ -98,7 +101,7 @@ integration-test:
         - "**/target/surefire-reports/TEST-*.xml"
   only:
     variables:
-      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint2") 
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint3") 
 
 deploy-docker:
   stage: deploy
@@ -125,7 +128,7 @@ deploy-docker:
     - docker push $IMG_NAME
   only:
     variables:
-      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint2") 
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint3") 
 
 .kubernetes: &kubernetes
   stage: run
@@ -227,6 +230,9 @@ deploy-staging:
     name: staging
     url: https://staging.cluster.ensisa.uha.fr/${CI_PROJECT_NAMESPACE}-${CI_PROJECT_NAME}
     on_stop: stop-staging
+  only:
+    variables:
+      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint3") 
 
 deploy-prod:
   <<: *kubernetes
