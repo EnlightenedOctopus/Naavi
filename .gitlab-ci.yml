@@ -82,9 +82,10 @@ include:
 code_quality:
   artifacts:
     paths: [gl-code-quality-report.json]
-  only:
-    variables:
-      - ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint3") 
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "Develop-Sprint3"
+      when: always
+    - when: never
 
 # Task : integration testing
 integration-test:
