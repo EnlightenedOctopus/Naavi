@@ -75,3 +75,19 @@ td:nth-child(3){
 .center>button{
 	margin-top:30px;
 }
+
+.selected{
+	box-shadow: inset 0px 0px 15px #565656;
+}
+
+.comment{
+	max-width: 500px;
+}
+
+.listbtn{
+	margin-left:10px;
+}
+
+.delete-test{
+	margin-left:200px;
+}

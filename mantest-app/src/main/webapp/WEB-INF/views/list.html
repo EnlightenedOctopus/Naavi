@@ -11,14 +11,14 @@
 		<table th:each="testlist, stat: ${testlists}" th:id="${testlist.id}" th:object="${testlist}" class="table">
 			<tr><th class="listname">[[*{name}]]</th><th></th>
 				<th class="double-button">
-					<button class="btn btn-success" onclick="addTest(this)" th:listid="*{id}">Add Test</button>
+					<button class="btn btn-success listbtn" onclick="addTest(this)" th:listid="*{id}">Add Test</button>
 					<form th:action="@{/deletelist}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="id" id="hid_id" th:value="*{id}">
-						<input type="submit" name="delete" value="Delete" class="btn btn-danger">
+						<input type="submit" name="delete" value="Delete" class="btn btn-danger listbtn">
 					</form>
 					<form th:action="@{/execute}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="id" id="hid_id" th:value="*{id}">
-						<input type="submit" name="execute" value="Execute" class="btn btn-primary">
+						<input type="submit" name="execute" value="Execute" class="btn btn-primary listbtn">
 					</form>
 				</th>
 			</tr>

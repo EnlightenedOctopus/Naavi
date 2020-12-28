@@ -24,6 +24,7 @@ public class TestController {
 	
 	private Report report;
 	private Iterator<Test> iterator;
+	private Test currentTest;
 	
 	@RequestMapping(value="/")
 	public String hello() throws IOException{
@@ -65,27 +66,6 @@ public class TestController {
 		return ret;
 	}
 	
-//	@RequestMapping(value="/create")
-//	public String create(@RequestParam(required=true) String testName, @RequestParam(required=true) String testDescription, @RequestParam(required=true) Long listId) throws IOException{
-//		Test newTest = new Test();
-//		long id = daoFactory.getTestDao().count()+1;
-//		while(daoFactory.getTestDao().find(id) != null) id++;
-//		newTest.setId(id);
-//		newTest.setName(testName);
-//		newTest.setDescription(testDescription);
-//		daoFactory.getTestDao().persist(newTest);
-//		if(daoFactory.getTestListDao().find(listId) != null) {
-//			daoFactory.getTestListDao().find(listId).addTest(newTest);
-//		}
-//		else {
-//			if(daoFactory.getTestListDao().count()==(long)0) {
-//				daoFactory.getTestListDao().persist(new TestList("default",(long)0));
-//			}
-//			daoFactory.getTestListDao().find((long)0).addTest(newTest);
-//		}
-//		
-//		return "redirect:/list";
-//	}
 	
 	@RequestMapping(value="/createlist")
 	public String creatList(@RequestParam(required=true) String listName) {
@@ -129,7 +109,7 @@ public class TestController {
 		}
 		else {
 			if(daoFactory.getTestListDao().count()==(long)0) {
-				daoFactory.getTestListDao().persist(new TestList("default",(long)0));
+				daoFactory.getTestListDao().persist(new TestList("Default",(long)0));
 			}
 			daoFactory.getTestListDao().find((long)0).addTest(newTest);
 		}
@@ -138,11 +118,15 @@ public class TestController {
 	}
 	@RequestMapping(value="/execute")
 	public ModelAndView execute(@RequestParam(required=false) Long id) throws IOException {
+		//Essayer de rajouter une redirection a cas ou il se passe de la merde
+		//if(daoFactory.getTestListDao().find(id)==null) {
+		//	return "redirect:/list";
+		//}
 		if (id!=null) {
 			initialiseExecute(id);
 		}
 		ModelAndView ret = new ModelAndView("execute");
-		ret.addObject("testtoexecute",iterator.next());
+		ret.addObject("testtoexecute",currentTest);
 		ret.addObject("hasnext", iterator.hasNext());
 		return ret;
 	}
@@ -150,23 +134,26 @@ public class TestController {
 	public void initialiseExecute(long idlist) {
 		report = new Report();
 		iterator = daoFactory.getTestListDao().find(idlist).getTests().iterator();
+		currentTest = iterator.next();
 	}
 	
 	@RequestMapping(value="/next")
-	public String next(@RequestParam(required=false) String next, @RequestParam(required=true) String state, @RequestParam(required=true) String comment, @RequestParam(required=true) long id) throws IOException {
+	public String next(@RequestParam(required=false) String state, @RequestParam(required=true) String comment, @RequestParam(required=true) long id) throws IOException {
 		ExecutedTest.State s;
 		switch (state) {
-		case "success" : s=State.SUCCESS; break;
-		case "fail" : s=State.FAILED; break;
-		default : s=State.SKIPED;
+			case "success" : s=State.SUCCESS; break;
+			case "fail" : s=State.FAILED; break;
+			default : s=State.SKIPED;
 		}
-		ExecutedTest et = new ExecutedTest(daoFactory.getTestDao().find(id), s , comment);
+		ExecutedTest et = new ExecutedTest(currentTest, s , comment);
 		report.addExecutedTest(et);
-		if (next.equals("end")) {
+		if (!(iterator.hasNext())) {
 			daoFactory.getReportDao().addReport(report);
 			return "redirect:/list";
 		}
+		currentTest = iterator.next();
 		return "redirect:/execute";
 	}
+
 	
 }
