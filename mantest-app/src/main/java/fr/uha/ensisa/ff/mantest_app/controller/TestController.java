@@ -155,5 +155,9 @@ public class TestController {
 		return "redirect:/execute";
 	}
 
-	
+	@RequestMapping(value="/report")
+	public ModelAndView report(@RequestParam(required=false) String id) throws IOException{
+		ModelAndView ret = new ModelAndView("report");
+		return ret;
+	}
 }

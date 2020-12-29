@@ -38,7 +38,7 @@ public class TestControllerWithoutMockTest {
 		ExecutedTest et = new ExecutedTest(null,State.SUCCESS, "Ceci est un super commentaire");
 		daoFactory.getTestListDao().persist(new TestList("", 0l));
 		sut.initialiseExecute(0l);
-		sut.next("end", "success", et.getComment(), id);
+		sut.next("success", et.getComment(), id);
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
 		Iterator<Report> i = daoFactory.getReportDao().findAll().iterator();
@@ -54,7 +54,7 @@ public class TestControllerWithoutMockTest {
 		ExecutedTest et = new ExecutedTest(null,State.FAILED, "Ceci est un super commentaire");
 		daoFactory.getTestListDao().persist(new TestList("", 0l));
 		sut.initialiseExecute(0l);
-		sut.next("end", "fail", et.getComment(), id);
+		sut.next("fail", et.getComment(), id);
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
 		Iterator<Report> i = daoFactory.getReportDao().findAll().iterator();
@@ -70,7 +70,7 @@ public class TestControllerWithoutMockTest {
 		ExecutedTest et = new ExecutedTest(null,State.SKIPED, "Ceci est un super commentaire");
 		daoFactory.getTestListDao().persist(new TestList("", 0l));
 		sut.initialiseExecute(0l);
-		sut.next("end", "skiped", et.getComment(), id);
+		sut.next("skiped", et.getComment(), id);
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
 		Iterator<Report> i = daoFactory.getReportDao().findAll().iterator();

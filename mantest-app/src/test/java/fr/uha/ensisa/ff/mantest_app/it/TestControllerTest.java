@@ -88,7 +88,7 @@ class TestControllerTest {
 		ExecutedTest et = new ExecutedTest(t,State.FAILED, "Ceci est un super commentaire");
 		Mockito.when(daoList.find(0l)).thenReturn(new TestList("",0l));
 		sut.initialiseExecute(0l);
-		sut.next("end","",et.getComment(),id);
+		sut.next("failed",et.getComment(),id);
 		Mockito.verify(daoReport).addReport(Mockito.any(Report.class));
 	}
 	
