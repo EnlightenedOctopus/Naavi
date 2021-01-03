@@ -11,16 +11,16 @@
 		<table class="table">
 			<tr><th>Date</th><th>Tests</th><th></th></tr>
 			<tr  th:each="report: ${reports}" th:object="${report}" >
-				<td class="listname">[[*{#dates.format(date, 'dd-MMM-yyyy HH:mm')}]]</td>
+				<td class="listname">[[*{#dates.format(date, 'dd MMM yyyy - HH:mm')}]]</td>
 				<td><span th:each="cur: *{tests}">[[${cur.test.name}]]<br></span></td>
 				<td class="delete-goto">
 					<form th:action="@{/deletereport}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="id" th:value="*{id}">
-						<input type="submit" name="delete" value="Delete" class="btn btn-danger listbtn">
+						<input type="submit" name="delete" value="&#10540; Delete" class="btn btn-danger listbtn">
 					</form>
 					<form th:action="@{/report}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="id" th:value="*{id}">
-						<input type="submit" name="execute" value="Go To" class="btn btn-success listbtn">
+						<input type="submit" name="execute" value="Go To &raquo" class="btn btn-success listbtn">
 					</form>
 				</td>
 			</tr>

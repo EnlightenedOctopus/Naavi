@@ -171,4 +171,10 @@ public class TestController {
 		ret.addObject("report",  daoFactory.getReportDao().getReport(id));
 		return ret;
 	}
+	
+	@RequestMapping(value="/deletereport")
+	public String deletereport(@RequestParam(required=true) long id) throws IOException{
+		daoFactory.getReportDao().remove(daoFactory.getReportDao().getReport(id));
+		return "redirect:/reportlist";
+	}
 }
