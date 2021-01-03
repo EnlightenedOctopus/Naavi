@@ -133,6 +133,9 @@ public class TestController {
 	
 	public void initialiseExecute(long idlist) {
 		report = new Report();
+		long id = daoFactory.getReportDao().count();
+		while(daoFactory.getReportDao().getReport(id) != null) id++;
+		report.setId(id);
 		iterator = daoFactory.getTestListDao().find(idlist).getTests().iterator();
 		currentTest = iterator.next();
 	}
@@ -155,9 +158,17 @@ public class TestController {
 		return "redirect:/execute";
 	}
 
+	@RequestMapping(value="/reportlist")
+	public ModelAndView reportlist() throws IOException{
+		ModelAndView ret = new ModelAndView("reportlist");
+		ret.addObject("reports", daoFactory.getReportDao().findAll());
+		return ret;
+	}
+	
 	@RequestMapping(value="/report")
-	public ModelAndView report(@RequestParam(required=false) String id) throws IOException{
+	public ModelAndView report(@RequestParam(required=true) long id) throws IOException{
 		ModelAndView ret = new ModelAndView("report");
+		ret.addObject("report",  daoFactory.getReportDao().getReport(id));
 		return ret;
 	}
 }

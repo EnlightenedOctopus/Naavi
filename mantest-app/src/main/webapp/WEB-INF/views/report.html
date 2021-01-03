@@ -4,6 +4,14 @@
 		<title>Tests Execution</title>
 	</head>
 	<body>
-		
+		<div class="center">
+			<h1 class="display-1">Test2Test</h1>
+			<h2 class="display-4">by TurboCheese</h2> 
+		</div>
+		<table class="table margin-bot">
+			<tr><th>Test name</th><th>Comment</th></tr>
+			<tr th:each="curtest : ${report.tests}" th:object="${curtest.test}" th:class="${curtest.state}"><th>[[*{name}]]</th><td>[[${curtest.comment}]]</td></tr>
+		</table>
+		<div class="center bottom-button"><a th:href="@{/list}"><button class="btn btn-success">&laquo Test List</button></a><a th:href="@{/reportlist}"><button class="btn btn-primary">&laquo Reports</button></a></div>
 	</body>
 </html>

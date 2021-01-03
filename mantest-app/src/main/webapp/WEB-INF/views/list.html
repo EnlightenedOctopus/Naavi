@@ -11,7 +11,7 @@
 		<table th:each="testlist, stat: ${testlists}" th:id="${testlist.id}" th:object="${testlist}" class="table">
 			<tr><th class="listname">[[*{name}]]</th><th></th>
 				<th class="double-button">
-					<button class="btn btn-success listbtn" onclick="addTest(this)" th:listid="*{id}">Add Test</button>
+					<button class="btn btn-success listbtn" onclick="addTest(this)" th:listid="*{id}"> + Add Test</button>
 					<form th:action="@{/deletelist}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="id" id="hid_id" th:value="*{id}">
 						<input type="submit" name="delete" value="Delete" class="btn btn-danger listbtn">
@@ -23,8 +23,9 @@
 				</th>
 			</tr>
 			<tr th:each="test:*{tests}">
-				<th class="testname">[[${test.name}]]</th><td>[[${test.description}]]</td>
-				<td>
+				<th class="testname">[[${test.name}]]</th>
+				<td>[[${test.description}]]</td>
+				<td class="delete">
 					<form th:action="@{/delete}" method="POST" accept-charset="UTF-8">
 						<input type="hidden" name="listId" th:value="*{id}">
 						<input type="hidden" name="id" th:value="${test.id}">
@@ -33,7 +34,7 @@
 				</td>
 			</tr>
 		</table>
-		<div class="center"><button class="btn btn-success" onclick="addTestList()">Add Test List</button></div>
+		<div class="center bottom-button"><button class="btn btn-success" onclick="addTestList()"> + Add Test List</button><a th:href="@{/reportlist}"><button class="btn btn-primary">&raquo Reports</button></a></div>
 		<div id="addtestlist" class="inactive">
 			<form th:action="@{/createlist}" method="POST" accept-charset="UTF-8" name="addtestForm">
 				<input type="text" name="listName" class="form-control" placeholder="List Name">

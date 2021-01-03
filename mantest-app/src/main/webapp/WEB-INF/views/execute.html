@@ -5,6 +5,11 @@
 	</head>
 	<body>
 		<div class="center">
+			<h1 class="display-1">Test2Test</h1>
+			<h2 class="display-4">by TurboCheese</h2> 
+		</div>
+		<br>
+		<div class="center centerpage">
 			<h1>Test : [[${testtoexecute.name}]]</h1>
 			<h2>[[${testtoexecute.description}]]</h2>
 			<div>
@@ -14,7 +19,7 @@
 			</div><br>
 			<form th:action="@{/next}" method="POST" accept-charset="UTF-8" class="center">
 	  			<input type="text" name="comment" placeholder="Comment" class="form-control comment">
-	  			<input type="hidden" name="state" value="succes" id="state">
+	  			<input type="hidden" name="state" value="success" id="state">
 	  			<input type="hidden" name="id" id="hid_id" th:value="${testtoexecute.id}">
 	  			<div th:if="${hasnext}">
 	  				<input type="submit" name="next" value="Next" class="btn btn-success">

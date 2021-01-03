@@ -60,7 +60,7 @@ input[type="text"], textarea{
 	margin-left:10px;
 }
 
-td:nth-child(3){
+.delete{
 	width: 100px;
 }
 
@@ -90,4 +90,43 @@ td:nth-child(3){
 
 .delete-test{
 	margin-left:200px;
+}
+
+.SUCCESS{
+	background:#8fd19e;
+}
+
+.FAILED{
+	background:#ed969e;
+}
+
+.SKIPED{
+	background:#ffdf7e;
+}
+
+.delete-goto{
+	display:flex;
+	flex-direction:row;
+	justify-content:flex-end	;
+}
+
+.centerpage{
+    height: 100vh;
+    position: absolute;
+    justify-content: center;
+    top: 0;
+}
+
+.bottom-button{
+	flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+}
+	
+.bottom-button>a{
+	margin-left:10px;
+}	
+
+.margin-bot{
+	margin-bottom:10px;	
 }
