@@ -22,7 +22,7 @@ class TestReportDaoMem {
 	@DisplayName("We can add a report in the dao")
 	void testReportDaoMemAdd() {
 		mem.addReport(r);
-		assertEquals(r, mem.getReport(r.getDate().getTime()));
+		assertEquals(r, mem.getReport(r.getId()));
 		assertEquals(mem.findAll().size(), mem.count());
 	}
 	
