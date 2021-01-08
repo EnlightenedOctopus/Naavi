@@ -92,4 +92,48 @@ class TestControllerTest {
 		Mockito.verify(daoReport).addReport(Mockito.any(Report.class));
 	}
 	
+	@Test
+	public void hello() throws IOException {
+		assertEquals("redirect:/list", sut.hello());
+	}
+	
+	@Test
+	public void createList() throws IOException {
+		assertEquals("redirect:/list", sut.creatList("list"));
+	}
+	
+	@Test
+	public void deletelist() throws IOException {
+		sut.creatList("list");
+		assertEquals("redirect:/list", sut.deletelist(0l));
+	}
+	
+	@Test
+	public void addtest() throws IOException {
+		sut.creatList("list");
+		assertEquals(sut.addtest("Test1", "Description", 0l), "redirect:/list");
+	}
+	
+	@Test
+	public void setup() throws IOException {
+		assertEquals("redirect:/list", sut.setup());
+	}
+	
+	@Test
+	public void list() throws IOException {
+		assertEquals("list", sut.list().getViewName());
+	}
+	
+	@Test
+	public void formadd() throws IOException {
+		assertEquals("formadd", sut.formAdd().getViewName());
+	}
+	
+	/*@Test
+	public void execute() throws IOException {
+		sut.creatList("list");
+		Mockito.when(daoList.find(0l)).thenReturn(new TestList("",0l));
+		assertEquals("execute", sut.execute(0l).getViewName());
+	}*/
+	
 }
