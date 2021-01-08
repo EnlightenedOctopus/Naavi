@@ -70,28 +70,6 @@ public class HelloIT{
 	public static String getBaseUrl() {
 		return "http://" + host + ":" + port + '/';
 	}
-	@Test
-	public void testName() {
-		String testName = "testname";
-		driver.get(getBaseUrl() + "hello?name=" + testName);
-		assertTrue(driver.getPageSource().contains(testName),
-				"Sent name not found in page");
-	}
-
-	@Test
-	public void hello() throws IOException {
-		String testName = "testname";
-		HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:" + port +"/hello?name="+testName).openConnection();
-		{
-			connection.connect();
-			assertEquals(200, connection.getResponseCode());
-			
-			try (InputStream in = connection.getInputStream()) {
-				String output = IOUtils.toString(in, StandardCharsets.UTF_8);
-				assertTrue(output.contains(testName),"Sent name not found in page  with source \n" + output);
-			}
-		}
-	}
 	
 	@Test
 	@DisplayName("Redirect Error")

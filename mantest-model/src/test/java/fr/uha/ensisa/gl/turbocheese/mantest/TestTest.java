@@ -20,6 +20,10 @@ public class TestTest {
 			String name = "A sample test name";
 			sut.setName(name);
 			assertEquals(name, sut.getName());
+		}
+		@Test
+		@DisplayName("A test should have an ID")
+		void setId() {
 			assertEquals(0, sut.getId());
 			long id = 12;
 			sut.setId(id);

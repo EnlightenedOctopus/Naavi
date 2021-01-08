@@ -1,7 +1,10 @@
 package fr.uha.ensisa.gl.turbocheese.mantest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -52,6 +55,8 @@ public class ReportTest {
 	@Test
 	@DisplayName("Error in Report date")
 	public void dateReport() {
-		//Have to mock the System to give a correct date of creation and to test them...
+		long justafter = System.currentTimeMillis();
+		assertTrue(sut.getDate().getTime()<justafter+10);
+		assertTrue(sut.getDate().getTime()>justafter-10);
 	}
 }
