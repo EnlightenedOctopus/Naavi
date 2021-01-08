@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	 <head th:include="../fragments/template :: head(~{::title})">
+		<title>Report list</title>
+	</head>
+	<body>
+		<div class="center">
+			<h1 class="display-1">Test2Test</h1>
+			<h2 class="display-4">by TurboCheese</h2> 
+		</div>
+		<table class="table">
+			<tr><th>Date</th><th>Tests</th><th></th></tr>
+			<tr  th:each="report: ${reports}" th:object="${report}" >
+				<td class="listname">[[*{#dates.format(date, 'dd MMM yyyy - HH:mm')}]]</td>
+				<td><span th:each="cur: *{tests}">[[${cur.test.name}]]<br></span></td>
+				<td class="delete-goto">
+					<form th:action="@{/deletereport}" method="POST" accept-charset="UTF-8">
+						<input type="hidden" name="id" th:value="*{id}">
+						<input type="submit" name="delete" value="&#10540; Delete" class="btn btn-danger listbtn">
+					</form>
+					<form th:action="@{/report}" method="POST" accept-charset="UTF-8">
+						<input type="hidden" name="id" th:value="*{id}">
+						<input type="submit" name="execute" value="Go To &raquo" class="btn btn-success listbtn">
+					</form>
+				</td>
+			</tr>
+		</table>
+		<div class="center bottom-button"><a th:href="@{/list}"><button class="btn btn-success">&laquo Test List</button></a></div>
+		<div th:replace="../fragments/template :: footer"></div>
+	</body>
+</html>

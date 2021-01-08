@@ -6,6 +6,7 @@ import java.util.Date;
 public class Report {
 	private ArrayList<ExecutedTest> tests;
 	private Date date;
+	private long id;
 	
 	public Report() {
 		tests= new ArrayList<ExecutedTest>();
@@ -24,4 +25,17 @@ public class Report {
 	public Date getDate() {
 		return date;
 	}
+	
+	public ArrayList<ExecutedTest> getTests(){
+		return tests;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id=id;
+	}
+	
 }

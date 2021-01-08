@@ -12,23 +12,23 @@ import fr.uha.ensisa.gl.turbocheese.mantest.dao.ReportDao;
 
 public class ReportDaoMem implements ReportDao {
 
-	private final Map<Date, Report> store = Collections.synchronizedMap(new TreeMap<Date, Report>());
+	private final Map<Long, Report> store = Collections.synchronizedMap(new TreeMap<Long, Report>());
 	
 	@Override
 	public void addReport(Report r) {
 		// TODO Auto-generated method stub
-		store.put(r.getDate(), r);
+		store.put(r.getId(), r);
 	}
 
 	@Override
 	public void remove(Report r) {
-		store.remove(r.getDate());
+		store.remove(r.getId());
 	}
 
 	@Override
-	public Report getReport(Date d) {
+	public Report getReport(long id) {
 		// TODO Auto-generated method stub
-		return store.get(d);
+		return store.get(id);
 	}
 
 	@Override

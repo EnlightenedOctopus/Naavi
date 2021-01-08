@@ -24,6 +24,7 @@ public class TestController {
 	
 	private Report report;
 	private Iterator<Test> iterator;
+	private Test currentTest;
 	
 	@RequestMapping(value="/")
 	public String hello() throws IOException{
@@ -40,23 +41,22 @@ public class TestController {
 	
 	@RequestMapping(value="/setup")
 	public String setup() throws IOException{
-		TestList testlist = new TestList("List 1",(long)1);
+		TestList testlist = new TestList("List 1",0l);
 		testlist.addTest(new Test((long)1, "List 1 Test 1", ""));
 		testlist.addTest(new Test((long)2, "List 1 Test 2", ""));
 		testlist.addTest(new Test((long)3, "List 1 Test 3", ""));
 		daoFactory.getTestListDao().persist(testlist);
-		TestList testlist2 = new TestList("List 2",(long)2);
+		TestList testlist2 = new TestList("List 2",1l);
 		testlist2.addTest(new Test((long)1, "List 2 Test 1", ""));
 		testlist2.addTest(new Test((long)2, "List 2 Test 2", ""));
 		testlist2.addTest(new Test((long)3, "List 2 Test 3", ""));
 		testlist2.addTest(new Test((long)4, "List 2 Test 3", ""));
 		daoFactory.getTestListDao().persist(testlist2);
-		TestList testlist3 = new TestList("List 3",(long)3);
+		TestList testlist3 = new TestList("List 3",2l);
 		testlist3.addTest(new Test((long)1, "List 3 Test 1", ""));
 		testlist3.addTest(new Test((long)2, "List 3 Test 2", ""));
 		daoFactory.getTestListDao().persist(testlist3);
 		return "redirect:/list";
-		//ALORS EN FAIT FAUT VIRER L'ID des CONSTRUCTEURS ET LE METTRE DANS DAOFACTORY
 	}
 	
 	@RequestMapping(value="/formadd")
@@ -65,33 +65,12 @@ public class TestController {
 		return ret;
 	}
 	
-//	@RequestMapping(value="/create")
-//	public String create(@RequestParam(required=true) String testName, @RequestParam(required=true) String testDescription, @RequestParam(required=true) Long listId) throws IOException{
-//		Test newTest = new Test();
-//		long id = daoFactory.getTestDao().count()+1;
-//		while(daoFactory.getTestDao().find(id) != null) id++;
-//		newTest.setId(id);
-//		newTest.setName(testName);
-//		newTest.setDescription(testDescription);
-//		daoFactory.getTestDao().persist(newTest);
-//		if(daoFactory.getTestListDao().find(listId) != null) {
-//			daoFactory.getTestListDao().find(listId).addTest(newTest);
-//		}
-//		else {
-//			if(daoFactory.getTestListDao().count()==(long)0) {
-//				daoFactory.getTestListDao().persist(new TestList("default",(long)0));
-//			}
-//			daoFactory.getTestListDao().find((long)0).addTest(newTest);
-//		}
-//		
-//		return "redirect:/list";
-//	}
 	
 	@RequestMapping(value="/createlist")
 	public String creatList(@RequestParam(required=true) String listName) {
-		long id = daoFactory.getTestListDao().count()+1;
+		long id = daoFactory.getTestListDao().count();
 		while(daoFactory.getTestListDao().find(id) != null) id++;
-		System.out.println(new TestList(listName,id));
+		System.out.println(id);
 		daoFactory.getTestListDao().persist(new TestList(listName,id));
 		return "redirect:/list";
 	}
@@ -118,7 +97,7 @@ public class TestController {
 			return "redirect:/list";
 		}
 		Test newTest = new Test();
-		long id = daoFactory.getTestListDao().find(listId).size()+1;
+		long id = daoFactory.getTestListDao().find(listId).size();
 		while(daoFactory.getTestListDao().find(listId).find(id) != null) id++;
 		newTest.setId(id);
 		newTest.setName(testName);
@@ -129,7 +108,7 @@ public class TestController {
 		}
 		else {
 			if(daoFactory.getTestListDao().count()==(long)0) {
-				daoFactory.getTestListDao().persist(new TestList("default",(long)0));
+				daoFactory.getTestListDao().persist(new TestList("Default",(long)0));
 			}
 			daoFactory.getTestListDao().find((long)0).addTest(newTest);
 		}
@@ -138,35 +117,62 @@ public class TestController {
 	}
 	@RequestMapping(value="/execute")
 	public ModelAndView execute(@RequestParam(required=false) Long id) throws IOException {
-		if (id!=null) {
+		if(id == null || daoFactory.getTestListDao().find(id)==null) {
+			return new ModelAndView("redirect:/list");		
+		}
+		else {
 			initialiseExecute(id);
 		}
 		ModelAndView ret = new ModelAndView("execute");
-		ret.addObject("testtoexecute",iterator.next());
+		ret.addObject("testtoexecute",currentTest);
 		ret.addObject("hasnext", iterator.hasNext());
 		return ret;
 	}
 	
 	public void initialiseExecute(long idlist) {
 		report = new Report();
+		long id = daoFactory.getReportDao().count();
+		while(daoFactory.getReportDao().getReport(id) != null) id++;
+		report.setId(id);
 		iterator = daoFactory.getTestListDao().find(idlist).getTests().iterator();
+		currentTest = iterator.next();
 	}
 	
 	@RequestMapping(value="/next")
-	public String next(@RequestParam(required=false) String next, @RequestParam(required=true) String state, @RequestParam(required=true) String comment, @RequestParam(required=true) long id) throws IOException {
+	public String next(@RequestParam(required=false) String state, @RequestParam(required=true) String comment) throws IOException {
 		ExecutedTest.State s;
 		switch (state) {
-		case "success" : s=State.SUCCESS; break;
-		case "fail" : s=State.FAILED; break;
-		default : s=State.SKIPED;
+			case "success" : s=State.SUCCESS; break;
+			case "fail" : s=State.FAILED; break;
+			default : s=State.SKIPED;
 		}
-		ExecutedTest et = new ExecutedTest(daoFactory.getTestDao().find(id), s , comment);
+		ExecutedTest et = new ExecutedTest(currentTest, s , comment);
 		report.addExecutedTest(et);
-		if (next.equals("end")) {
+		if (!(iterator.hasNext())) {
 			daoFactory.getReportDao().addReport(report);
 			return "redirect:/list";
 		}
+		currentTest = iterator.next();
 		return "redirect:/execute";
 	}
+
+	@RequestMapping(value="/reportlist")
+	public ModelAndView reportlist() throws IOException{
+		ModelAndView ret = new ModelAndView("reportlist");
+		ret.addObject("reports", daoFactory.getReportDao().findAll());
+		return ret;
+	}
 	
+	@RequestMapping(value="/report")
+	public ModelAndView report(@RequestParam(required=true) long id) throws IOException{
+		ModelAndView ret = new ModelAndView("report");
+		ret.addObject("report",  daoFactory.getReportDao().getReport(id));
+		return ret;
+	}
+	
+	@RequestMapping(value="/deletereport")
+	public String deletereport(@RequestParam(required=true) long id) throws IOException{
+		daoFactory.getReportDao().remove(daoFactory.getReportDao().getReport(id));
+		return "redirect:/reportlist";
+	}
 }

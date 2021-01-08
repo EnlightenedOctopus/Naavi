@@ -34,50 +34,69 @@ public class TestControllerWithoutMockTest {
 	@Test
 	@DisplayName("Success Test hasn't been saved in new Report")
 	public void successReportTest() throws IOException {
-		long id = 19l;
-		ExecutedTest et = new ExecutedTest(null,State.SUCCESS, "Ceci est un super commentaire");
+		ExecutedTest et = new ExecutedTest(new fr.uha.ensisa.gl.turbocheese.mantest.Test(0l,"testname","testcomment"),State.SUCCESS, "Ceci est un super commentaire");
 		daoFactory.getTestListDao().persist(new TestList("", 0l));
-		sut.initialiseExecute(0l);
-		sut.next("end", "success", et.getComment(), id);
+		daoFactory.getTestListDao().find(0l).addTest(new fr.uha.ensisa.gl.turbocheese.mantest.Test(0l,"testname","testcomment"));
+		sut.execute(0l);
+		sut.next("success", et.getComment());
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
 		Iterator<Report> i = daoFactory.getReportDao().findAll().iterator();
 		Report sut2 = i.next();
-		assertEquals(et.getTest(),sut2.getExecutedTest(0).getTest());
+		assertEquals(et.getTest().getName(),sut2.getExecutedTest(0).getTest().getName());
 		assertEquals(et.getState(),sut2.getExecutedTest(0).getState());
 		assertEquals(et.getComment(),sut2.getExecutedTest(0).getComment());
 	}
 	@Test
 	@DisplayName("Failed Test hasn't been saved in new Report")
 	public void failedReportTest() throws IOException {
-		long id = 19l;
-		ExecutedTest et = new ExecutedTest(null,State.FAILED, "Ceci est un super commentaire");
+		ExecutedTest et = new ExecutedTest(new fr.uha.ensisa.gl.turbocheese.mantest.Test(0l,"testname","testcomment"),State.FAILED, "Ceci est un super commentaire");
 		daoFactory.getTestListDao().persist(new TestList("", 0l));
-		sut.initialiseExecute(0l);
-		sut.next("end", "fail", et.getComment(), id);
+		daoFactory.getTestListDao().find(0l).addTest(new fr.uha.ensisa.gl.turbocheese.mantest.Test(0l,"testname","testcomment"));
+		sut.execute(0l);
+		sut.next("fail", et.getComment());
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
 		Iterator<Report> i = daoFactory.getReportDao().findAll().iterator();
 		Report sut2 = i.next();
-		assertEquals(et.getTest(),sut2.getExecutedTest(0).getTest());
+		assertEquals(et.getTest().getName(),sut2.getExecutedTest(0).getTest().getName());
 		assertEquals(et.getState(),sut2.getExecutedTest(0).getState());
 		assertEquals(et.getComment(),sut2.getExecutedTest(0).getComment());
 	}
 	@Test
 	@DisplayName("Skiped Test hasn't been saved in new Report")
 	public void skipedReportTest() throws IOException {
-		long id = 19l;
-		ExecutedTest et = new ExecutedTest(null,State.SKIPED, "Ceci est un super commentaire");
+		ExecutedTest et = new ExecutedTest(new fr.uha.ensisa.gl.turbocheese.mantest.Test(0l,"testname","testcomment"),State.SKIPED, "Ceci est un super commentaire");
 		daoFactory.getTestListDao().persist(new TestList("", 0l));
-		sut.initialiseExecute(0l);
-		sut.next("end", "skiped", et.getComment(), id);
+		daoFactory.getTestListDao().find(0l).addTest(new fr.uha.ensisa.gl.turbocheese.mantest.Test(0l,"testname","testcomment"));
+		sut.execute(0l);
+		sut.next("skiped", et.getComment());
 		assertEquals(1l,daoFactory.getReportDao().count());
 		assertFalse(daoFactory.getReportDao().findAll().isEmpty());
 		Iterator<Report> i = daoFactory.getReportDao().findAll().iterator();
 		Report sut2 = i.next();
-		assertEquals(et.getTest(),sut2.getExecutedTest(0).getTest());
+		assertEquals(et.getTest().getName(),sut2.getExecutedTest(0).getTest().getName());
 		assertEquals(et.getState(),sut2.getExecutedTest(0).getState());
 		assertEquals(et.getComment(),sut2.getExecutedTest(0).getComment());
 	}
+	
+	@Test
+	@DisplayName("New Test is stored")
+	public void TestAddTest() throws IOException {
+		daoFactory.getTestListDao().persist(new TestList("", 0l));
+		sut.addtest("testName", "testDescription", 0l);
+		System.out.println(daoFactory.getTestListDao().find(0l).find(0l).getName());
+		assertEquals(daoFactory.getTestListDao().find(0l).find(0l).getName(), "testName");
+		assertEquals(daoFactory.getTestListDao().find(0l).find(0l).getDescription(), "testDescription");
+	}
+	
+	@Test
+	@DisplayName("New TestList is stored in daoTestList")
+	public void TestAddTestList() throws IOException {
+		sut.creatList("testList");
+		assertEquals(daoFactory.getTestListDao().find(0l).getName(), "testList");
+	}
+	
+	
 	
 }
