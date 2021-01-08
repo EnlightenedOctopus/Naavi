@@ -56,6 +56,7 @@ public class ReportTest {
 	@DisplayName("Error in Report date")
 	public void dateReport() {
 		long justafter = System.currentTimeMillis();
-		assertEquals(sut.getDate().getTime(),justafter);
+		assertTrue(sut.getDate().getTime()<justafter+10);
+		assertTrue(sut.getDate().getTime()>justafter-10);
 	}
 }
