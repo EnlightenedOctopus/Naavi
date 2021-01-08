@@ -25,6 +25,7 @@ public class TestController {
 	private Report report;
 	private Iterator<Test> iterator;
 	private Test currentTest;
+	private boolean inexec;
 	
 	@RequestMapping(value="/")
 	public String hello() throws IOException{
@@ -117,10 +118,10 @@ public class TestController {
 	}
 	@RequestMapping(value="/execute")
 	public ModelAndView execute(@RequestParam(required=false) Long id) throws IOException {
-		if(id == null || daoFactory.getTestListDao().find(id)==null) {
+		if(!inexec &&( id == null || daoFactory.getTestListDao().find(id)==null)) {
 			return new ModelAndView("redirect:/list");		
 		}
-		else {
+		if (id!=null) {
 			initialiseExecute(id);
 		}
 		ModelAndView ret = new ModelAndView("execute");
@@ -131,6 +132,7 @@ public class TestController {
 	
 	public void initialiseExecute(long idlist) {
 		report = new Report();
+		inexec = true;
 		long id = daoFactory.getReportDao().count();
 		while(daoFactory.getReportDao().getReport(id) != null) id++;
 		report.setId(id);
@@ -150,6 +152,7 @@ public class TestController {
 		report.addExecutedTest(et);
 		if (!(iterator.hasNext())) {
 			daoFactory.getReportDao().addReport(report);
+			inexec=false;
 			return "redirect:/list";
 		}
 		currentTest = iterator.next();
