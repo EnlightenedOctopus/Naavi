@@ -71,7 +71,6 @@ public class TestController {
 	public String creatList(@RequestParam(required=true) String listName) {
 		long id = daoFactory.getTestListDao().count();
 		while(daoFactory.getTestListDao().find(id) != null) id++;
-		System.out.println(id);
 		daoFactory.getTestListDao().persist(new TestList(listName,id));
 		return "redirect:/list";
 	}
@@ -79,6 +78,7 @@ public class TestController {
 	@RequestMapping(value="/delete")
 	public String delete(@RequestParam(required=true) long id, @RequestParam(required=true) long listId) throws IOException{
 		if(daoFactory.getTestListDao().find(listId) == null) {
+			return "redirect:/list";
 		}
 		if(daoFactory.getTestListDao().find(listId).find(id) != null) {
 			daoFactory.getTestListDao().find(listId).deleteTest(id);

@@ -85,7 +85,6 @@ public class TestControllerWithoutMockTest {
 	public void TestAddTest() throws IOException {
 		daoFactory.getTestListDao().persist(new TestList("", 0l));
 		sut.addtest("testName", "testDescription", 0l);
-		System.out.println(daoFactory.getTestListDao().find(0l).find(0l).getName());
 		assertEquals(daoFactory.getTestListDao().find(0l).find(0l).getName(), "testName");
 		assertEquals(daoFactory.getTestListDao().find(0l).find(0l).getDescription(), "testDescription");
 	}
@@ -96,6 +95,18 @@ public class TestControllerWithoutMockTest {
 		sut.creatList("testList");
 		assertEquals(daoFactory.getTestListDao().find(0l).getName(), "testList");
 	}
+	
+	@Test
+	@DisplayName("Test is correctly deleted")
+	public void deleteTest() throws IOException {
+		daoFactory.getTestListDao().persist(new TestList("", 0l));
+		fr.uha.ensisa.gl.turbocheese.mantest.Test t = new fr.uha.ensisa.gl.turbocheese.mantest.Test(0l,"testname","testcomment");
+		daoFactory.getTestListDao().find(0l).addTest(t);
+		assertEquals(daoFactory.getTestListDao().find(0l).size(),1l);
+		sut.delete(0l, 0l);
+		assertEquals(daoFactory.getTestListDao().find(0l).size(),0l);
+	}
+	
 	
 	
 	
