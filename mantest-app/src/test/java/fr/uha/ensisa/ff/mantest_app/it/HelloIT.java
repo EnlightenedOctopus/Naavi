@@ -138,6 +138,8 @@ public class HelloIT{
 		assertEquals(driver.findElements(By.className("FAILED")).size(),1);
 		assertEquals(driver.findElements(By.className("SKIPED")).size(),1);
 	}
+	
+	
 
 	
 }

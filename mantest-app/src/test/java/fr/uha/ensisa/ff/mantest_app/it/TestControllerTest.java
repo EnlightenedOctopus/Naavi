@@ -133,6 +133,10 @@ class TestControllerTest {
 		assertEquals("formadd", sut.formAdd().getViewName());
 	}
 	
+	@Test
+	public void testRedirectDelete() throws IOException{
+		assertEquals("redirect:/list", sut.delete(0,690));
+	}
 	/*@Test
 	public void execute() throws IOException {
 		sut.creatList("list");
