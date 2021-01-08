@@ -17,6 +17,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -71,6 +72,18 @@ public class HelloIT{
 		return "http://" + host + ":" + port + '/';
 	}
 	
+	private void reset() {
+		driver.get(getBaseUrl()+"list");
+		while(driver.findElements(By.name("delete")).size() != 0) {
+			driver.findElements(By.name("delete")).get(0).click();
+		}
+		driver.get(getBaseUrl()+"reportlist");
+		while(driver.findElements(By.name("delete")).size() != 0) {
+			driver.findElements(By.name("delete")).get(0).click();
+		}
+		driver.get(getBaseUrl()+"setup");
+	}
+	
 	@Test
 	@DisplayName("Redirect Error")
 	public void redictionTest() throws IOException{
@@ -80,5 +93,51 @@ public class HelloIT{
 		assertEquals((getBaseUrl()+"list"),co.getURL().toString());
 		co.connect();
 	}
+	
+	@Test
+	@DisplayName("Delete report test")
+	public void deleteReportTest() throws IOException{
+		reset();
+		driver.findElements(By.name("execute")).get(0).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("next")).click();
+		driver.get(getBaseUrl()+"reportlist");
+		driver.findElements(By.name("delete")).get(0).click();
+		assertEquals(driver.findElements(By.className("listname")).size(),0);
+	}
+	
+	@Test
+	@DisplayName("Report list size test")
+	public void reportTest() throws IOException{
+		reset();
+		driver.findElements(By.name("execute")).get(0).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElements(By.name("execute")).get(2).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("next")).click();	
+		driver.get(getBaseUrl()+"reportlist");
+		assertEquals(driver.findElements(By.className("listname")).size(),2);
+	}
+	
+	@Test
+	@DisplayName("Report test")
+	public void report() throws IOException{
+		reset();
+		driver.findElements(By.name("execute")).get(0).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.className("btn-danger")).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.className("btn-warning")).click();
+		driver.findElement(By.name("next")).click();
+		driver.get(getBaseUrl()+"reportlist");
+		driver.findElement(By.name("execute")).click();
+		assertEquals(driver.findElements(By.className("SUCCESS")).size(),1);
+		assertEquals(driver.findElements(By.className("FAILED")).size(),1);
+		assertEquals(driver.findElements(By.className("SKIPED")).size(),1);
+	}
+
 	
 }
