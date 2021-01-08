@@ -68,6 +68,7 @@ class TestControllerTest {
 		assertEquals(Long.valueOf(removedId), removed.getValue().getId());
 	}*/
 
+
 	@Test
 	@DisplayName("Execute page doesn't add a test")
 	public void addexecutedTest() throws IOException {
@@ -85,11 +86,14 @@ class TestControllerTest {
 		long id = 19l;
 		fr.uha.ensisa.gl.turbocheese.mantest.Test t = new fr.uha.ensisa.gl.turbocheese.mantest.Test();
 		t.setId(id);
+		TestList tList = new TestList("TestList",0l);
+		tList.addTest(t);
 		ExecutedTest et = new ExecutedTest(t,State.FAILED, "Ceci est un super commentaire");
-		Mockito.when(daoList.find(0l)).thenReturn(new TestList("",0l));
+		Mockito.when(daoList.find(0l)).thenReturn(tList);
 		sut.initialiseExecute(0l);
-		sut.next("failed",et.getComment(),id);
+		sut.next("end",et.getComment());
 		Mockito.verify(daoReport).addReport(Mockito.any(Report.class));
 	}
+
 	
 }

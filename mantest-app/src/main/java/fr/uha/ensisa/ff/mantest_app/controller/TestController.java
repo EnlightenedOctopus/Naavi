@@ -41,23 +41,22 @@ public class TestController {
 	
 	@RequestMapping(value="/setup")
 	public String setup() throws IOException{
-		TestList testlist = new TestList("List 1",(long)1);
+		TestList testlist = new TestList("List 1",0l);
 		testlist.addTest(new Test((long)1, "List 1 Test 1", ""));
 		testlist.addTest(new Test((long)2, "List 1 Test 2", ""));
 		testlist.addTest(new Test((long)3, "List 1 Test 3", ""));
 		daoFactory.getTestListDao().persist(testlist);
-		TestList testlist2 = new TestList("List 2",(long)2);
+		TestList testlist2 = new TestList("List 2",1l);
 		testlist2.addTest(new Test((long)1, "List 2 Test 1", ""));
 		testlist2.addTest(new Test((long)2, "List 2 Test 2", ""));
 		testlist2.addTest(new Test((long)3, "List 2 Test 3", ""));
 		testlist2.addTest(new Test((long)4, "List 2 Test 3", ""));
 		daoFactory.getTestListDao().persist(testlist2);
-		TestList testlist3 = new TestList("List 3",(long)3);
+		TestList testlist3 = new TestList("List 3",2l);
 		testlist3.addTest(new Test((long)1, "List 3 Test 1", ""));
 		testlist3.addTest(new Test((long)2, "List 3 Test 2", ""));
 		daoFactory.getTestListDao().persist(testlist3);
 		return "redirect:/list";
-		//ALORS EN FAIT FAUT VIRER L'ID des CONSTRUCTEURS ET LE METTRE DANS DAOFACTORY
 	}
 	
 	@RequestMapping(value="/formadd")
@@ -69,9 +68,9 @@ public class TestController {
 	
 	@RequestMapping(value="/createlist")
 	public String creatList(@RequestParam(required=true) String listName) {
-		long id = daoFactory.getTestListDao().count()+1;
+		long id = daoFactory.getTestListDao().count();
 		while(daoFactory.getTestListDao().find(id) != null) id++;
-		System.out.println(new TestList(listName,id));
+		System.out.println(id);
 		daoFactory.getTestListDao().persist(new TestList(listName,id));
 		return "redirect:/list";
 	}
@@ -98,7 +97,7 @@ public class TestController {
 			return "redirect:/list";
 		}
 		Test newTest = new Test();
-		long id = daoFactory.getTestListDao().find(listId).size()+1;
+		long id = daoFactory.getTestListDao().find(listId).size();
 		while(daoFactory.getTestListDao().find(listId).find(id) != null) id++;
 		newTest.setId(id);
 		newTest.setName(testName);
@@ -118,11 +117,10 @@ public class TestController {
 	}
 	@RequestMapping(value="/execute")
 	public ModelAndView execute(@RequestParam(required=false) Long id) throws IOException {
-		//Essayer de rajouter une redirection a cas ou il se passe de la merde
-		//if(daoFactory.getTestListDao().find(id)==null) {
-		//	return "redirect:/list";
-		//}
-		if (id!=null) {
+		if(id == null || daoFactory.getTestListDao().find(id)==null) {
+			return new ModelAndView("redirect:/list");		
+		}
+		else {
 			initialiseExecute(id);
 		}
 		ModelAndView ret = new ModelAndView("execute");
@@ -141,7 +139,7 @@ public class TestController {
 	}
 	
 	@RequestMapping(value="/next")
-	public String next(@RequestParam(required=false) String state, @RequestParam(required=true) String comment, @RequestParam(required=true) long id) throws IOException {
+	public String next(@RequestParam(required=false) String state, @RequestParam(required=true) String comment) throws IOException {
 		ExecutedTest.State s;
 		switch (state) {
 			case "success" : s=State.SUCCESS; break;
