@@ -3,7 +3,8 @@ function addTest(listid){
 	document.getElementById("addtestlistid").value=listid.getAttribute("listid");
 }
 function cancelAdd(){
-	document.getElementById("addtest").classList.toggle("active");
+	document.getElementById("addtest").classList.remove("active");
+	document.getElementById("addtestlist").classList.remove("active");
 }
 function addTestList(){
 	document.getElementById("addtestlist").classList.toggle("active");
